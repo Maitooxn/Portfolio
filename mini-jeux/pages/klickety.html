@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klickety - Jordan Oshoffa</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../mini-jeux.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .game-page {
+            padding: 2rem 0;
+        }
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .game-screenshot {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+        }
+        .game-instructions {
+            background-color: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .game-instructions h3 {
+            margin-top: 0;
+        }
+        .game-instructions ol {
+            padding-left: 1.5rem;
+        }
+        .game-instructions li {
+            margin-bottom: 1rem;
+        }
+        .download-section {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .requirements {
+            background-color: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div class="preloader">
+        <div class="loader">
+            <span class="loader-text">LOADING</span>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Curseur personnalisé -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar scrolled">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-text">JO</span>
+                <div class="logo-dot"></div>
+            </div>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../../index.html#accueil" class="nav-link">Accueil</a></li>
+                <li class="nav-item"><a href="../../../index.html#projets" class="nav-link">Projets</a></li>
+                <li class="nav-item"><a href="../index.html" class="nav-link active">Mini-Jeux</a></li>
+                <li class="nav-item"><a href="../../../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section Klickety -->
+    <section class="game-page">
+        <div class="container">
+            <div class="game-header">
+                <h1>Klickety</h1>
+                <p>Un jeu de puzzle où vous éliminez des groupes de blocs de même couleur</p>
+            </div>
+            
+            <img src="../images/klickety.png" alt="Capture d'écran du jeu Klickety" class="game-screenshot" onerror="this.src='../../../images/projects/placeholder.jpg'">
+            
+            <div class="game-description">
+                <h2>À propos du jeu</h2>
+                <p>Klickety est un jeu de puzzle où le joueur doit éliminer des groupes de blocs de même couleur. Lorsqu'un groupe est éliminé, les blocs au-dessus tombent pour remplir les espaces vides. L'objectif est de vider le plateau ou d'obtenir le score le plus élevé possible.</p>
+                
+                <div class="game-instructions">
+                    <h3>Comment jouer</h3>
+                    <ol>
+                        <li><strong>Téléchargez</strong> le fichier Python du jeu en cliquant sur le bouton ci-dessous.</li>
+                        <li><strong>Installez Python</strong> si ce n'est pas déjà fait (version 3.6 ou supérieure recommandée).</li>
+                        <li><strong>Installez Tkinter</strong> si nécessaire (généralement inclus avec Python).</li>
+                        <li><strong>Exécutez le fichier</strong> en double-cliquant dessus ou via la commande <code>python klickety.py</code> dans un terminal.</li>
+                        <li><strong>Règles du jeu :</strong>
+                            <ul>
+                                <li>Cliquez sur un groupe de blocs adjacents de même couleur pour les éliminer.</li>
+                                <li>Plus le groupe est grand, plus vous marquez de points.</li>
+                                <li>Après chaque élimination, les blocs au-dessus tombent pour remplir les espaces vides.</li>
+                                <li>Le jeu se termine lorsqu'il n'y a plus de groupes possibles à éliminer ou lorsque le plateau est vide.</li>
+                                <li>L'objectif est d'obtenir le score le plus élevé possible.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="requirements">
+                    <h3>Configuration requise</h3>
+                    <ul>
+                        <li>Python 3.6 ou supérieur</li>
+                        <li>Tkinter (bibliothèque graphique, généralement incluse avec Python)</li>
+                        <li>Système d'exploitation : Windows, macOS ou Linux</li>
+                    </ul>
+                </div>
+                
+                <h3>Fonctionnalités</h3>
+                <ul>
+                    <li>Grille de jeu colorée</li>
+                    <li>Détection des groupes de blocs adjacents</li>
+                    <li>Animation de chute des blocs</li>
+                    <li>Système de score basé sur la taille des groupes éliminés</li>
+                    <li>Plusieurs niveaux de difficulté</li>
+                </ul>
+            </div>
+            
+            <div class="download-section">
+                <a href="../jeux/klickety.py" download class="btn btn-primary">
+                    <i class="fas fa-download"></i> Télécharger Klickety
+                </a>
+            </div>
+            
+            <div class="back-to-games">
+                <a href="../../../index.html#projets" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au portfolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">JO</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 Jordan Oshoffa. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../../index.html#accueil">Accueil</a>
+                    <a href="../../../index.html#a-propos">À Propos</a>
+                    <a href="../../../index.html#competences">Compétences</a>
+                    <a href="../../../index.html#projets">Projets</a>
+                    <a href="../../../index.html#formation">Formation</a>
+                    <a href="../../../index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <a href="#"><i class="fas fa-arrow-up"></i></a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../../js/script.js"></script>
+</body>
+</html>

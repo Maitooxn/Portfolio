@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorLines - JavaScript</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 450px;
+            height: 450px;
+            margin: 20px auto;
+            border: 2px solid #444;
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.3);
+            background-color: #111;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 450px;
+            margin-top: 10px;
+        }
+        
+        .score-container, .next-balls-container {
+            background-color: #222;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 255, 0.2);
+        }
+        
+        .next-balls-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .next-ball {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+        
+        h1 {
+            color: #4d79ff;
+            text-shadow: 0 0 10px rgba(77, 121, 255, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            background-color: #222;
+            padding: 15px;
+            border-radius: 5px;
+            max-width: 450px;
+            box-shadow: 0 0 10px rgba(0, 0, 255, 0.2);
+        }
+        
+        .controls h2 {
+            color: #4d79ff;
+            margin-top: 0;
+        }
+        
+        .controls ul {
+            padding-left: 20px;
+        }
+        
+        .controls li {
+            margin-bottom: 5px;
+        }
+        
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            display: none;
+        }
+        
+        .game-over h2 {
+            color: #ff4d4d;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .game-over button {
+            background-color: #4d79ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .game-over button:hover {
+            background-color: #3366ff;
+        }
+        
+        .btn-restart {
+            background-color: #4d79ff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-restart:hover {
+            background-color: #3366ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>ColorLines</h1>
+    
+    <div class="game-container">
+        <canvas id="colorlines" width="450" height="450"></canvas>
+        <div id="game-over" class="game-over">
+            <h2>Game Over</h2>
+            <p>Score: <span id="final-score">0</span></p>
+            <button id="restart-game-over">Rejouer</button>
+        </div>
+    </div>
+    
+    <div class="game-info">
+        <div class="score-container">
+            <p>Score: <span id="score">0</span></p>
+            <p>Meilleur score: <span id="high-score">0</span></p>
+        </div>
+        <div class="next-balls-container">
+            <p>Prochaines billes:</p>
+            <div id="next-ball-1" class="next-ball"></div>
+            <div id="next-ball-2" class="next-ball"></div>
+            <div id="next-ball-3" class="next-ball"></div>
+        </div>
+    </div>
+    
+    <button id="restart" class="btn-restart">Nouvelle partie</button>
+    
+    <div class="controls">
+        <h2>Comment jouer</h2>
+        <ul>
+            <li>Cliquez sur une bille pour la sélectionner</li>
+            <li>Cliquez sur une case vide pour déplacer la bille sélectionnée</li>
+            <li>Alignez 5 billes ou plus de la même couleur pour les faire disparaître</li>
+            <li>Après chaque coup, 3 nouvelles billes apparaissent</li>
+            <li>La partie se termine quand le plateau est plein</li>
+        </ul>
+    </div>
+
+    <script>
+        // Configuration du jeu
+        const BOARD_SIZE = 9;
+        const CELL_SIZE = 50;
+        const BALL_RADIUS = 20;
+        const MIN_LINE_LENGTH = 5;
+        const NEW_BALLS_PER_TURN = 3;
+        
+        // Couleurs des billes
+        const COLORS = [
+            '#FF0000', // Rouge
+            '#00FF00', // Vert
+            '#0000FF', // Bleu
+            '#FFFF00', // Jaune
+            '#FF00FF', // Magenta
+            '#00FFFF', // Cyan
+            '#FF8800'  // Orange
+        ];
+        
+        // Éléments du DOM
+        const canvas = document.getElementById('colorlines');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const highScoreElement = document.getElementById('high-score');
+        const finalScoreElement = document.getElementById('final-score');
+        const gameOverElement = document.getElementById('game-over');
+        const restartButton = document.getElementById('restart');
+        const restartGameOverButton = document.getElementById('restart-game-over');
+        const nextBallElements = [
+            document.getElementById('next-ball-1'),
+            document.getElementById('next-ball-2'),
+            document.getElementById('next-ball-3')
+        ];
+        
+        // Variables du jeu
+        let board = [];
+        let selectedCell = null;
+        let nextBalls = [];
+        let score = 0;
+        let highScore = localStorage.getItem('colorlines-high-score') || 0;
+        let gameOver = false;
+        
+        // Initialisation du plateau
+        function initBoard() {
+            board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(null));
+        }
+        
+        // Dessiner le plateau
+        function drawBoard() {
+            // Effacer le canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Dessiner la grille
+            ctx.strokeStyle = '#444';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i <= BOARD_SIZE; i++) {
+                // Lignes horizontales
+                ctx.beginPath();
+                ctx.moveTo(0, i * CELL_SIZE);
+                ctx.lineTo(BOARD_SIZE * CELL_SIZE, i * CELL_SIZE);
+                ctx.stroke();
+                
+                // Lignes verticales
+                ctx.beginPath();
+                ctx.moveTo(i * CELL_SIZE, 0);
+                ctx.lineTo(i * CELL_SIZE, BOARD_SIZE * CELL_SIZE);
+                ctx.stroke();
+            }
+            
+            // Dessiner les billes
+            for (let y = 0; y < BOARD_SIZE; y++) {
+                for (let x = 0; x < BOARD_SIZE; x++) {
+                    if (board[y][x] !== null) {
+                        drawBall(x, y, board[y][x], (selectedCell && selectedCell.x === x && selectedCell.y === y));
+                    }
+                }
+            }
+            
+            // Dessiner le chemin si une bille est sélectionnée
+            if (selectedCell) {
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(
+                    selectedCell.x * CELL_SIZE + 2,
+                    selectedCell.y * CELL_SIZE + 2,
+                    CELL_SIZE - 4,
+                    CELL_SIZE - 4
+                );
+            }
+        }
+        
+        // Dessiner une bille
+        function drawBall(x, y, colorIndex, isSelected = false) {
+            const centerX = x * CELL_SIZE + CELL_SIZE / 2;
+            const centerY = y * CELL_SIZE + CELL_SIZE / 2;
+            const radius = isSelected ? BALL_RADIUS + 3 : BALL_RADIUS;
+            
+            // Ombre
+            ctx.beginPath();
+            ctx.arc(centerX + 2, centerY + 2, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fill();
+            
+            // Bille
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = COLORS[colorIndex];
+            ctx.fill();
+            
+            // Reflet (effet 3D)
+            const gradient = ctx.createRadialGradient(
+                centerX - radius / 3, centerY - radius / 3, radius / 10,
+                centerX, centerY, radius
+            );
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+            gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)');
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            // Contour
+            if (isSelected) {
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius + 2, 0, Math.PI * 2);
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+        
+        // Mettre à jour l'affichage des prochaines billes
+        function updateNextBallsDisplay() {
+            nextBallElements.forEach((element, index) => {
+                element.style.backgroundColor = COLORS[nextBalls[index]];
+                
+                // Ajouter un effet de reflet
+                element.style.backgroundImage = 'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 40%, rgba(255, 255, 255, 0) 70%)';
+                element.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
+            });
+        }
+        
+        // Générer les prochaines billes
+        function generateNextBalls() {
+            nextBalls = Array(NEW_BALLS_PER_TURN).fill().map(() => Math.floor(Math.random() * COLORS.length));
+            updateNextBallsDisplay();
+        }
+        
+        // Ajouter de nouvelles billes au plateau
+        function addNewBalls() {
+            if (isBoardFull()) {
+                gameOver = true;
+                gameOverElement.style.display = 'flex';
+                finalScoreElement.textContent = score;
+                return;
+            }
+            
+            let ballsAdded = 0;
+            const emptyCells = getEmptyCells();
+            
+            while (ballsAdded < NEW_BALLS_PER_TURN && emptyCells.length > 0) {
+                const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                const cell = emptyCells[randomIndex];
+                
+                board[cell.y][cell.x] = nextBalls[ballsAdded];
+                emptyCells.splice(randomIndex, 1);
+                ballsAdded++;
+            }
+            
+            // Vérifier les alignements après avoir ajouté les nouvelles billes
+            checkLines();
+            
+            // Générer les prochaines billes
+            generateNextBalls();
+            
+            // Vérifier si le plateau est plein
+            if (isBoardFull()) {
+                gameOver = true;
+                gameOverElement.style.display = 'flex';
+                finalScoreElement.textContent = score;
+                
+                // Mettre à jour le meilleur score
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem('colorlines-high-score', highScore);
+                    highScoreElement.textContent = highScore;
+                }
+            }
+        }
+        
+        // Obtenir toutes les cellules vides
+        function getEmptyCells() {
+            const emptyCells = [];
+            
+            for (let y = 0; y < BOARD_SIZE; y++) {
+                for (let x = 0; x < BOARD_SIZE; x++) {
+                    if (board[y][x] === null) {
+                        emptyCells.push({ x, y });
+                    }
+                }
+            }
+            
+            return emptyCells;
+        }
+        
+        // Vérifier si le plateau est plein
+        function isBoardFull() {
+            return getEmptyCells().length === 0;
+        }
+        
+        // Trouver un chemin entre deux points (algorithme A*)
+        function findPath(startX, startY, endX, endY) {
+            // Si la destination est occupée, pas de chemin possible
+            if (board[endY][endX] !== null) {
+                return null;
+            }
+            
+            const openSet = [];
+            const closedSet = new Set();
+            const gScore = {};
+            const fScore = {};
+            const cameFrom = {};
+            
+            const start = `${startX},${startY}`;
+            const end = `${endX},${endY}`;
+            
+            gScore[start] = 0;
+            fScore[start] = heuristic(startX, startY, endX, endY);
+            openSet.push({ key: start, f: fScore[start] });
+            
+            while (openSet.length > 0) {
+                // Trouver le nœud avec le score f le plus bas
+                openSet.sort((a, b) => a.f - b.f);
+                const current = openSet.shift().key;
+                const [currentX, currentY] = current.split(',').map(Number);
+                
+                if (current === end) {
+                    // Reconstruire le chemin
+                    const path = [];
+                    let currentNode = current;
+                    
+                    while (cameFrom[currentNode]) {
+                        const [x, y] = currentNode.split(',').map(Number);
+                        path.unshift({ x, y });
+                        currentNode = cameFrom[currentNode];
+                    }
+                    
+                    return path;
+                }
+                
+                closedSet.add(current);
+                
+                // Vérifier les voisins
+                const directions = [
+                    { dx: 0, dy: -1 }, // Haut
+                    { dx: 1, dy: 0 },  // Droite
+                    { dx: 0, dy: 1 },  // Bas
+                    { dx: -1, dy: 0 }  // Gauche
+                ];
+                
+                for (const dir of directions) {
+                    const neighborX = currentX + dir.dx;
+                    const neighborY = currentY + dir.dy;
+                    
+                    // Vérifier si le voisin est valide
+                    if (
+                        neighborX < 0 || neighborX >= BOARD_SIZE ||
+                        neighborY < 0 || neighborY >= BOARD_SIZE ||
+                        board[neighborY][neighborX] !== null
+                    ) {
+                        continue;
+                    }
+                    
+                    const neighbor = `${neighborX},${neighborY}`;
+                    
+                    if (closedSet.has(neighbor)) {
+                        continue;
+                    }
+                    
+                    const tentativeGScore = gScore[current] + 1;
+                    
+                    if (!gScore[neighbor] || tentativeGScore < gScore[neighbor]) {
+                        cameFrom[neighbor] = current;
+                        gScore[neighbor] = tentativeGScore;
+                        fScore[neighbor] = tentativeGScore + heuristic(neighborX, neighborY, endX, endY);
+                        
+                        if (!openSet.some(node => node.key === neighbor)) {
+                            openSet.push({ key: neighbor, f: fScore[neighbor] });
+                        }
+                    }
+                }
+            }
+            
+            // Aucun chemin trouvé
+            return null;
+        }
+        
+        // Fonction heuristique (distance de Manhattan)
+        function heuristic(x1, y1, x2, y2) {
+            return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+        }
+        
+        // Vérifier les alignements
+        function checkLines() {
+            const lines = findLines(MIN_LINE_LENGTH);
+            
+            if (lines.length > 0) {
+                let totalBalls = 0;
+                
+                for (const line of lines) {
+                    totalBalls += line.length;
+                    
+                    // Supprimer les billes de la ligne
+                    for (const cell of line) {
+                        board[cell.y][cell.x] = null;
+                    }
+                }
+                
+                // Mettre à jour le score (points au carré * 10)
+                updateScore(totalBalls * totalBalls * 10);
+                
+                return true;
+            }
+            
+            return false;
+        }
+        
+        // Trouver les alignements de longueur minimale spécifiée
+        function findLines(minLength) {
+            const lines = [];
+            
+            // Vérifier les lignes horizontales
+            for (let y = 0; y < BOARD_SIZE; y++) {
+                for (let x = 0; x <= BOARD_SIZE - minLength; x++) {
+                    if (board[y][x] !== null) {
+                        let length = 1;
+                        const colorIndex = board[y][x];
+                        
+                        for (let i = 1; x + i < BOARD_SIZE; i++) {
+                            if (board[y][x + i] !== null && board[y][x + i] === colorIndex) {
+                                length++;
+                            } else {
+                                break;
+                            }
+                        }
+                        
+                        if (length >= minLength) {
+                            const line = [];
+                            for (let i = 0; i < length; i++) {
+                                line.push({ x: x + i, y });
+                            }
+                            lines.push(line);
+                            x += length - 1; // Sauter les positions déjà vérifiées
+                        }
+                    }
+                }
+            }
+            
+            // Vérifier les lignes verticales
+            for (let x = 0; x < BOARD_SIZE; x++) {
+                for (let y = 0; y <= BOARD_SIZE - minLength; y++) {
+                    if (board[y][x] !== null) {
+                        let length = 1;
+                        const colorIndex = board[y][x];
+                        
+                        for (let i = 1; y + i < BOARD_SIZE; i++) {
+                            if (board[y + i][x] !== null && board[y + i][x] === colorIndex) {
+                                length++;
+                            } else {
+                                break;
+                            }
+                        }
+                        
+                        if (length >= minLength) {
+                            const line = [];
+                            for (let i = 0; i < length; i++) {
+                                line.push({ x, y: y + i });
+                            }
+                            lines.push(line);
+                            y += length - 1; // Sauter les positions déjà vérifiées
+                        }
+                    }
+                }
+            }
+            
+            // Vérifier les diagonales (haut-gauche à bas-droite)
+            for (let y = 0; y <= BOARD_SIZE - minLength; y++) {
+                for (let x = 0; x <= BOARD_SIZE - minLength; x++) {
+                    if (board[y][x] !== null) {
+                        let length = 1;
+                        const colorIndex = board[y][x];
+                        
+                        for (let i = 1; x + i < BOARD_SIZE && y + i < BOARD_SIZE; i++) {
+                            if (board[y + i][x + i] !== null && board[y + i][x + i] === colorIndex) {
+                                length++;
+                            } else {
+                                break;
+                            }
+                        }
+                        
+                        if (length >= minLength) {
+                            const line = [];
+                            for (let i = 0; i < length; i++) {
+                                line.push({ x: x + i, y: y + i });
+                            }
+                            lines.push(line);
+                        }
+                    }
+                }
+            }
+            
+            // Vérifier les diagonales (haut-droite à bas-gauche)
+            for (let y = 0; y <= BOARD_SIZE - minLength; y++) {
+                for (let x = minLength - 1; x < BOARD_SIZE; x++) {
+                    if (board[y][x] !== null) {
+                        let length = 1;
+                        const colorIndex = board[y][x];
+                        
+                        for (let i = 1; x - i >= 0 && y + i < BOARD_SIZE; i++) {
+                            if (board[y + i][x - i] !== null && board[y + i][x - i] === colorIndex) {
+                                length++;
+                            } else {
+                                break;
+                            }
+                        }
+                        
+                        if (length >= minLength) {
+                            const line = [];
+                            for (let i = 0; i < length; i++) {
+                                line.push({ x: x - i, y: y + i });
+                            }
+                            lines.push(line);
+                        }
+                    }
+                }
+            }
+            
+            return lines;
+        }
+        
+        // Mettre à jour le score
+        function updateScore(points) {
+            score += points;
+            scoreElement.textContent = score;
+        }
+        
+        // Gérer les clics sur le canvas
+        function handleCanvasClick(e) {
+            if (gameOver) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+            const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+            
+            if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) {
+                return;
+            }
+            
+            if (selectedCell === null) {
+                // Aucune bille sélectionnée, essayer d'en sélectionner une
+                if (board[y][x] !== null) {
+                    selectedCell = { x, y };
+                    drawBoard();
+                }
+            } else {
+                // Une bille est déjà sélectionnée
+                if (x === selectedCell.x && y === selectedCell.y) {
+                    // Désélectionner la bille
+                    selectedCell = null;
+                    drawBoard();
+                } else if (board[y][x] === null) {
+                    // Essayer de déplacer la bille vers une case vide
+                    const path = findPath(selectedCell.x, selectedCell.y, x, y);
+                    
+                    if (path) {
+                        // Déplacer la bille
+                        board[y][x] = board[selectedCell.y][selectedCell.x];
+                        board[selectedCell.y][selectedCell.x] = null;
+                        
+                        // Réinitialiser la sélection
+                        selectedCell = null;
+                        
+                        // Redessiner le plateau
+                        drawBoard();
+                        
+                        // Vérifier les alignements
+                        if (!checkLines()) {
+                            // Ajouter de nouvelles billes si aucun alignement n'a été trouvé
+                            addNewBalls();
+                        }
+                        
+                        // Redessiner le plateau après les modifications
+                        drawBoard();
+                    }
+                } else {
+                    // Sélectionner une autre bille
+                    selectedCell = { x, y };
+                    drawBoard();
+                }
+            }
+        }
+        
+        // Réinitialiser le jeu
+        function resetGame() {
+            initBoard();
+            selectedCell = null;
+            score = 0;
+            gameOver = false;
+            
+            scoreElement.textContent = score;
+            highScoreElement.textContent = highScore;
+            
+            gameOverElement.style.display = 'none';
+            
+            // Générer les prochaines billes
+            generateNextBalls();
+            
+            // Ajouter les premières billes
+            addNewBalls();
+            
+            // Dessiner le plateau
+            drawBoard();
+        }
+        
+        // Initialisation du jeu
+        function init() {
+            // Charger le meilleur score
+            highScoreElement.textContent = highScore;
+            
+            // Ajouter les écouteurs d'événements
+            canvas.addEventListener('click', handleCanvasClick);
+            restartButton.addEventListener('click', resetGame);
+            restartGameOverButton.addEventListener('click', resetGame);
+            
+            // Initialiser le jeu
+            resetGame();
+        }
+        
+        // Démarrer le jeu
+        init();
+    </script>
+</body>
+</html>

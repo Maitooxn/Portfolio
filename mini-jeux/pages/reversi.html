@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reversi - Jordan Oshoffa</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../mini-jeux.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .game-page {
+            padding: 2rem 0;
+        }
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .game-screenshot {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+        }
+        .game-instructions {
+            background-color: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .game-instructions h3 {
+            margin-top: 0;
+        }
+        .game-instructions ol {
+            padding-left: 1.5rem;
+        }
+        .game-instructions li {
+            margin-bottom: 1rem;
+        }
+        .download-section {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .requirements {
+            background-color: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div class="preloader">
+        <div class="loader">
+            <span class="loader-text">LOADING</span>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Curseur personnalisé -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar scrolled">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-text">JO</span>
+                <div class="logo-dot"></div>
+            </div>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../../index.html#accueil" class="nav-link">Accueil</a></li>
+                <li class="nav-item"><a href="../../../index.html#projets" class="nav-link">Projets</a></li>
+                <li class="nav-item"><a href="../index.html" class="nav-link active">Mini-Jeux</a></li>
+                <li class="nav-item"><a href="../../../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section Reversi -->
+    <section class="game-page">
+        <div class="container">
+            <div class="game-header">
+                <h1>Reversi</h1>
+                <p>Un jeu de stratégie classique aussi connu sous le nom d'Othello</p>
+            </div>
+            
+            <img src="../images/reversi.png" alt="Capture d'écran du jeu Reversi" class="game-screenshot" onerror="this.src='../../../images/projects/placeholder.jpg'">
+            
+            <div class="game-description">
+                <h2>À propos du jeu</h2>
+                <p>Reversi (ou Othello) est un jeu de plateau à deux joueurs où l'objectif est d'avoir plus de pions de sa couleur que l'adversaire à la fin de la partie. À chaque tour, un joueur place un pion qui capture les pions adverses situés entre ce nouveau pion et un autre pion de sa couleur.</p>
+                
+                <div class="game-instructions">
+                    <h3>Comment jouer</h3>
+                    <ol>
+                        <li><strong>Téléchargez</strong> le fichier Python du jeu en cliquant sur le bouton ci-dessous.</li>
+                        <li><strong>Installez Python</strong> si ce n'est pas déjà fait (version 3.6 ou supérieure recommandée).</li>
+                        <li><strong>Installez Tkinter</strong> si nécessaire (généralement inclus avec Python).</li>
+                        <li><strong>Exécutez le fichier</strong> en double-cliquant dessus ou via la commande <code>python reversi.py</code> dans un terminal.</li>
+                        <li><strong>Règles du jeu :</strong>
+                            <ul>
+                                <li>Le jeu se joue sur un plateau 8×8.</li>
+                                <li>Les joueurs placent à tour de rôle un pion de leur couleur sur le plateau.</li>
+                                <li>Un coup n'est valide que s'il permet de capturer au moins un pion adverse.</li>
+                                <li>La capture se fait en encadrant une ligne de pions adverses entre deux pions de sa couleur.</li>
+                                <li>Les pions capturés changent de couleur.</li>
+                                <li>Le jeu se termine quand le plateau est plein ou qu'aucun joueur ne peut plus jouer.</li>
+                                <li>Le joueur avec le plus de pions de sa couleur gagne.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="requirements">
+                    <h3>Configuration requise</h3>
+                    <ul>
+                        <li>Python 3.6 ou supérieur</li>
+                        <li>Tkinter (bibliothèque graphique, généralement incluse avec Python)</li>
+                        <li>Système d'exploitation : Windows, macOS ou Linux</li>
+                    </ul>
+                </div>
+                
+                <h3>Fonctionnalités</h3>
+                <ul>
+                    <li>Plateau de jeu 8x8</li>
+                    <li>Mode deux joueurs</li>
+                    <li>Indication des coups possibles</li>
+                    <li>Comptage automatique des pions</li>
+                    <li>Détection de fin de partie</li>
+                </ul>
+            </div>
+            
+            <div class="download-section">
+                <a href="../jeux/reversi.py" download class="btn btn-primary">
+                    <i class="fas fa-download"></i> Télécharger Reversi
+                </a>
+            </div>
+            
+            <div class="back-to-games">
+                <a href="../../../index.html#projets" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au portfolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">JO</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 Jordan Oshoffa. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../../index.html#accueil">Accueil</a>
+                    <a href="../../../index.html#a-propos">À Propos</a>
+                    <a href="../../../index.html#competences">Compétences</a>
+                    <a href="../../../index.html#projets">Projets</a>
+                    <a href="../../../index.html#formation">Formation</a>
+                    <a href="../../../index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <a href="#"><i class="fas fa-arrow-up"></i></a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../../js/script.js"></script>
+</body>
+</html>

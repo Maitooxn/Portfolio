@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klickety - JavaScript</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 400px;
+            height: 500px;
+            margin: 20px auto;
+            border: 2px solid #444;
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.3);
+            background-color: #111;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 400px;
+            margin-top: 10px;
+        }
+        
+        .score-container, .level-container {
+            background-color: #222;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 255, 0.2);
+        }
+        
+        h1 {
+            color: #4d79ff;
+            text-shadow: 0 0 10px rgba(77, 121, 255, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            background-color: #222;
+            padding: 15px;
+            border-radius: 5px;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 255, 0.2);
+        }
+        
+        .controls h2 {
+            color: #4d79ff;
+            margin-top: 0;
+        }
+        
+        .controls ul {
+            padding-left: 20px;
+        }
+        
+        .controls li {
+            margin-bottom: 5px;
+        }
+        
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            display: none;
+        }
+        
+        .game-over h2 {
+            color: #ff4d4d;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .game-over button {
+            background-color: #4d79ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .game-over button:hover {
+            background-color: #3366ff;
+        }
+        
+        .btn-restart {
+            background-color: #4d79ff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-restart:hover {
+            background-color: #3366ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Klickety</h1>
+    
+    <div class="game-container">
+        <canvas id="klickety" width="400" height="500"></canvas>
+        <div id="game-over" class="game-over">
+            <h2>Game Over</h2>
+            <p>Score: <span id="final-score">0</span></p>
+            <button id="restart-game-over">Rejouer</button>
+        </div>
+    </div>
+    
+    <div class="game-info">
+        <div class="score-container">
+            <p>Score: <span id="score">0</span></p>
+            <p>Meilleur score: <span id="high-score">0</span></p>
+        </div>
+        <div class="level-container">
+            <p>Niveau: <span id="level">1</span></p>
+            <p>Blocs restants: <span id="blocks-left">0</span></p>
+        </div>
+    </div>
+    
+    <button id="restart" class="btn-restart">Nouvelle partie</button>
+    
+    <div class="controls">
+        <h2>Comment jouer</h2>
+        <ul>
+            <li>Cliquez sur un groupe de blocs de même couleur pour les éliminer</li>
+            <li>Les blocs au-dessus tombent pour remplir les espaces vides</li>
+            <li>Plus le groupe éliminé est grand, plus vous gagnez de points</li>
+            <li>Éliminez tous les blocs pour passer au niveau suivant</li>
+            <li>La partie se termine quand il n'y a plus de groupes à éliminer</li>
+        </ul>
+    </div>
+
+    <script>
+        // Configuration du jeu
+        const COLS = 10;
+        const ROWS = 15;
+        const BLOCK_SIZE = 40;
+        const COLORS = [
+            '#FF0000', // Rouge
+            '#00FF00', // Vert
+            '#0000FF', // Bleu
+            '#FFFF00', // Jaune
+            '#FF00FF', // Magenta
+            '#00FFFF'  // Cyan
+        ];
+        
+        // Éléments du DOM
+        const canvas = document.getElementById('klickety');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const highScoreElement = document.getElementById('high-score');
+        const levelElement = document.getElementById('level');
+        const blocksLeftElement = document.getElementById('blocks-left');
+        const finalScoreElement = document.getElementById('final-score');
+        const gameOverElement = document.getElementById('game-over');
+        const restartButton = document.getElementById('restart');
+        const restartGameOverButton = document.getElementById('restart-game-over');
+        
+        // Variables du jeu
+        let board = [];
+        let selectedGroup = [];
+        let score = 0;
+        let highScore = localStorage.getItem('klickety-high-score') || 0;
+        let level = 1;
+        let blocksLeft = 0;
+        let gameOver = false;
+        let animating = false;
+        let fallingBlocks = [];
+        
+        // Initialisation du plateau
+        function initBoard() {
+            board = [];
+            
+            for (let y = 0; y < ROWS; y++) {
+                const row = [];
+                for (let x = 0; x < COLS; x++) {
+                    // Générer un bloc aléatoire
+                    const colorIndex = Math.floor(Math.random() * COLORS.length);
+                    row.push(colorIndex);
+                }
+                board.push(row);
+            }
+            
+            // Compter les blocs
+            countBlocks();
+        }
+        
+        // Compter les blocs restants
+        function countBlocks() {
+            blocksLeft = 0;
+            
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    if (board[y][x] !== null) {
+                        blocksLeft++;
+                    }
+                }
+            }
+            
+            blocksLeftElement.textContent = blocksLeft;
+        }
+        
+        // Dessiner le plateau
+        function drawBoard() {
+            // Effacer le canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Dessiner l'arrière-plan
+            ctx.fillStyle = '#222';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Dessiner les blocs
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    if (board[y][x] !== null) {
+                        drawBlock(x, y, board[y][x]);
+                    }
+                }
+            }
+            
+            // Dessiner les blocs sélectionnés
+            for (const block of selectedGroup) {
+                drawSelectedBlock(block.x, block.y, board[block.y][block.x]);
+            }
+            
+            // Dessiner les blocs en train de tomber
+            for (const block of fallingBlocks) {
+                drawFallingBlock(block);
+            }
+        }
+        
+        // Dessiner un bloc
+        function drawBlock(x, y, colorIndex) {
+            const blockX = x * BLOCK_SIZE;
+            const blockY = y * BLOCK_SIZE;
+            
+            // Ombre
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(blockX + 2, blockY + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
+            
+            // Bloc
+            ctx.fillStyle = COLORS[colorIndex];
+            ctx.fillRect(blockX, blockY, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
+            
+            // Effet 3D (bord clair en haut à gauche)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.fillRect(blockX, blockY, BLOCK_SIZE - 2, 2);
+            ctx.fillRect(blockX, blockY, 2, BLOCK_SIZE - 2);
+            
+            // Effet 3D (bord sombre en bas à droite)
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(blockX + BLOCK_SIZE - 4, blockY, 2, BLOCK_SIZE - 2);
+            ctx.fillRect(blockX, blockY + BLOCK_SIZE - 4, BLOCK_SIZE - 2, 2);
+        }
+        
+        // Dessiner un bloc sélectionné
+        function drawSelectedBlock(x, y, colorIndex) {
+            const blockX = x * BLOCK_SIZE;
+            const blockY = y * BLOCK_SIZE;
+            
+            // Bloc avec effet de surbrillance
+            ctx.fillStyle = COLORS[colorIndex];
+            ctx.fillRect(blockX, blockY, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
+            
+            // Contour de sélection
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(blockX + 2, blockY + 2, BLOCK_SIZE - 6, BLOCK_SIZE - 6);
+            
+            // Effet de brillance
+            const gradient = ctx.createRadialGradient(
+                blockX + BLOCK_SIZE / 2,
+                blockY + BLOCK_SIZE / 2,
+                0,
+                blockX + BLOCK_SIZE / 2,
+                blockY + BLOCK_SIZE / 2,
+                BLOCK_SIZE / 2
+            );
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(blockX, blockY, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
+        }
+        
+        // Dessiner un bloc en train de tomber
+        function drawFallingBlock(block) {
+            const blockX = block.x * BLOCK_SIZE;
+            const blockY = block.currentY;
+            
+            // Ombre
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(blockX + 2, blockY + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4);
+            
+            // Bloc
+            ctx.fillStyle = COLORS[block.colorIndex];
+            ctx.fillRect(blockX, blockY, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
+            
+            // Effet 3D (bord clair en haut à gauche)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.fillRect(blockX, blockY, BLOCK_SIZE - 2, 2);
+            ctx.fillRect(blockX, blockY, 2, BLOCK_SIZE - 2);
+            
+            // Effet 3D (bord sombre en bas à droite)
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(blockX + BLOCK_SIZE - 4, blockY, 2, BLOCK_SIZE - 2);
+            ctx.fillRect(blockX, blockY + BLOCK_SIZE - 4, BLOCK_SIZE - 2, 2);
+        }
+        
+        // Trouver un groupe de blocs connectés
+        function findConnectedGroup(startX, startY) {
+            if (startX < 0 || startX >= COLS || startY < 0 || startY >= ROWS || board[startY][startX] === null) {
+                return [];
+            }
+            
+            const colorIndex = board[startY][startX];
+            const visited = Array(ROWS).fill().map(() => Array(COLS).fill(false));
+            const group = [];
+            
+            // Fonction récursive pour explorer les blocs connectés
+            function explore(x, y) {
+                if (x < 0 || x >= COLS || y < 0 || y >= ROWS || visited[y][x] || board[y][x] !== colorIndex) {
+                    return;
+                }
+                
+                visited[y][x] = true;
+                group.push({ x, y });
+                
+                // Explorer les voisins
+                explore(x + 1, y); // Droite
+                explore(x - 1, y); // Gauche
+                explore(x, y + 1); // Bas
+                explore(x, y - 1); // Haut
+            }
+            
+            explore(startX, startY);
+            
+            return group;
+        }
+        
+        // Supprimer un groupe de blocs
+        function removeGroup(group) {
+            if (group.length < 2) {
+                return false; // Groupe trop petit
+            }
+            
+            // Supprimer les blocs
+            for (const block of group) {
+                board[block.y][block.x] = null;
+            }
+            
+            // Mettre à jour le score (points au carré * 10)
+            updateScore(group.length * group.length * 10);
+            
+            // Faire tomber les blocs
+            applyGravity();
+            
+            // Compter les blocs restants
+            countBlocks();
+            
+            // Vérifier si le niveau est terminé
+            if (blocksLeft === 0) {
+                levelUp();
+            }
+            
+            // Vérifier s'il reste des groupes valides
+            if (!hasValidGroups()) {
+                endGame();
+            }
+            
+            return true;
+        }
+        
+        // Vérifier s'il reste des groupes valides
+        function hasValidGroups() {
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    if (board[y][x] !== null) {
+                        const group = findConnectedGroup(x, y);
+                        if (group.length >= 2) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            
+            return false;
+        }
+        
+        // Appliquer la gravité (faire tomber les blocs)
+        function applyGravity() {
+            animating = true;
+            fallingBlocks = [];
+            
+            // Identifier les blocs qui doivent tomber
+            for (let x = 0; x < COLS; x++) {
+                let emptySpaces = 0;
+                
+                for (let y = ROWS - 1; y >= 0; y--) {
+                    if (board[y][x] === null) {
+                        emptySpaces++;
+                    } else if (emptySpaces > 0) {
+                        // Ce bloc doit tomber
+                        const colorIndex = board[y][x];
+                        board[y][x] = null;
+                        board[y + emptySpaces][x] = colorIndex;
+                        
+                        // Ajouter à la liste des blocs en train de tomber
+                        fallingBlocks.push({
+                            x: x,
+                            startY: y * BLOCK_SIZE,
+                            targetY: (y + emptySpaces) * BLOCK_SIZE,
+                            currentY: y * BLOCK_SIZE,
+                            colorIndex: colorIndex
+                        });
+                    }
+                }
+            }
+            
+            // Animer la chute des blocs
+            if (fallingBlocks.length > 0) {
+                animateFallingBlocks();
+            } else {
+                animating = false;
+            }
+        }
+        
+        // Animer la chute des blocs
+        function animateFallingBlocks() {
+            let allBlocksLanded = true;
+            
+            for (const block of fallingBlocks) {
+                // Mettre à jour la position
+                block.currentY += 10; // Vitesse de chute
+                
+                if (block.currentY < block.targetY) {
+                    allBlocksLanded = false;
+                } else {
+                    block.currentY = block.targetY;
+                }
+            }
+            
+            // Redessiner le plateau
+            drawBoard();
+            
+            if (allBlocksLanded) {
+                // Tous les blocs ont atterri
+                fallingBlocks = [];
+                animating = false;
+            } else {
+                // Continuer l'animation
+                requestAnimationFrame(animateFallingBlocks);
+            }
+        }
+        
+        // Passer au niveau suivant
+        function levelUp() {
+            level++;
+            levelElement.textContent = level;
+            
+            // Initialiser un nouveau plateau
+            initBoard();
+        }
+        
+        // Mettre à jour le score
+        function updateScore(points) {
+            score += points;
+            scoreElement.textContent = score;
+            
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('klickety-high-score', highScore);
+                highScoreElement.textContent = highScore;
+            }
+        }
+        
+        // Terminer la partie
+        function endGame() {
+            gameOver = true;
+            finalScoreElement.textContent = score;
+            gameOverElement.style.display = 'flex';
+        }
+        
+        // Gérer les clics sur le canvas
+        function handleCanvasClick(e) {
+            if (gameOver || animating) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / BLOCK_SIZE);
+            const y = Math.floor((e.clientY - rect.top) / BLOCK_SIZE);
+            
+            if (x < 0 || x >= COLS || y < 0 || y >= ROWS) {
+                return;
+            }
+            
+            // Trouver le groupe connecté
+            const group = findConnectedGroup(x, y);
+            
+            if (group.length >= 2) {
+                // Supprimer le groupe
+                removeGroup(group);
+                selectedGroup = [];
+            } else {
+                selectedGroup = [];
+            }
+            
+            drawBoard();
+        }
+        
+        // Gérer le survol de la souris
+        function handleMouseMove(e) {
+            if (gameOver || animating) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / BLOCK_SIZE);
+            const y = Math.floor((e.clientY - rect.top) / BLOCK_SIZE);
+            
+            if (x < 0 || x >= COLS || y < 0 || y >= ROWS || board[y][x] === null) {
+                selectedGroup = [];
+            } else {
+                // Trouver le groupe connecté
+                selectedGroup = findConnectedGroup(x, y);
+            }
+            
+            drawBoard();
+        }
+        
+        // Réinitialiser le jeu
+        function resetGame() {
+            score = 0;
+            level = 1;
+            gameOver = false;
+            animating = false;
+            selectedGroup = [];
+            fallingBlocks = [];
+            
+            scoreElement.textContent = score;
+            levelElement.textContent = level;
+            highScoreElement.textContent = highScore;
+            
+            gameOverElement.style.display = 'none';
+            
+            // Initialiser le plateau
+            initBoard();
+            drawBoard();
+        }
+        
+        // Initialisation du jeu
+        function init() {
+            // Charger le meilleur score
+            highScoreElement.textContent = highScore;
+            
+            // Ajouter les écouteurs d'événements
+            canvas.addEventListener('click', handleCanvasClick);
+            canvas.addEventListener('mousemove', handleMouseMove);
+            restartButton.addEventListener('click', resetGame);
+            restartGameOverButton.addEventListener('click', resetGame);
+            
+            // Initialiser le jeu
+            resetGame();
+        }
+        
+        // Démarrer le jeu
+        init();
+    </script>
+</body>
+</html>

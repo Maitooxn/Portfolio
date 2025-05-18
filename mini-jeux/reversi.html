@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reversi - Jordan Oshoffa</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="mini-jeux.css">
+    <link rel="stylesheet" href="mini-jeux-enhanced.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div class="preloader">
+        <div class="loader">
+            <span class="loader-text">LOADING</span>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Curseur personnalisé -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar scrolled">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-text">JO</span>
+                <div class="logo-dot"></div>
+            </div>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#accueil" class="nav-link">Accueil</a></li>
+                <li class="nav-item"><a href="../../index.html#projets" class="nav-link">Projets</a></li>
+                <li class="nav-item"><a href="index.html" class="nav-link active">Mini-Jeux</a></li>
+                <li class="nav-item"><a href="../../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section Reversi -->
+    <section class="mini-jeux-section">
+        <div class="container">
+            <div class="game-header">
+                <h1>Reversi</h1>
+                <p>Un jeu de stratégie classique aussi connu sous le nom d'Othello</p>
+            </div>
+            
+            <!-- Tabs de navigation -->
+            <div class="game-tabs">
+                <div class="game-tab active" data-tab="jouer">Jouer</div>
+                <div class="game-tab" data-tab="presentation">Présentation</div>
+                <div class="game-tab" data-tab="regles">Règles du jeu</div>
+                <div class="game-tab" data-tab="technique">Aspects techniques</div>
+            </div>
+            
+            <!-- Tab Jouer -->
+            <div class="tab-content active" id="jouer-content">
+                <div class="game-container">
+                    <div id="game-status">Tour du joueur 1 (noir)</div>
+                    
+                    <div class="game-info">
+                        <div class="score-container">
+                            <span>Joueur 1 (noir):</span>
+                            <canvas id="score-canvas-1"></canvas>
+                        </div>
+                        <div class="score-container">
+                            <span>Joueur 2 (rouge):</span>
+                            <canvas id="score-canvas-2"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="game-board">
+                        <canvas id="game-canvas"></canvas>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <button id="reset-button">Nouvelle partie</button>
+                    </div>
+                </div>
+                
+                <div class="download-section">
+                    <p>Vous pouvez également télécharger la version Python du jeu pour y jouer hors ligne :</p>
+                    <a href="jeux/reversi.py" download class="btn btn-primary">
+                        <i class="fas fa-download"></i> Télécharger Reversi (Python)
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Tab Présentation -->
+            <div class="tab-content" id="presentation-content">
+                <div class="game-section">
+                    <h3 class="section-title">Concept et objectifs</h3>
+                    <div class="section-content">
+                        <div class="concept-overview">
+                            <p>Reversi, également connu sous le nom d'Othello, est un jeu de stratégie classique qui se joue à deux joueurs sur un plateau de 8×8 cases. Ce jeu combine simplicité des règles et profondeur stratégique, ce qui en fait un défi intellectuel accessible à tous les âges.</p>
+                            
+                            <div class="game-objective">
+                                <h4>Objectif</h4>
+                                <p>L'objectif est d'avoir plus de pions de sa couleur que l'adversaire à la fin de la partie. Pour cela, vous devez capturer les pions adverses en les encadrant entre vos propres pions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Origine et histoire</h3>
+                    <div class="section-content">
+                        <p>Reversi a été inventé en Angleterre à la fin du 19ème siècle. La version moderne, connue sous le nom d'Othello, a été popularisée au Japon dans les années 1970. Le nom "Othello" fait référence à la pièce de Shakespeare, où le personnage principal est un Maure (noir) marié à Desdémone (blanche), symbolisant le contraste des pions noirs et blancs du jeu.</p>
+                        <p>Aujourd'hui, Reversi est joué dans le monde entier, avec des championnats internationaux et des programmes informatiques capables de jouer à un niveau expert.</p>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Aperçu du gameplay</h3>
+                    <div class="section-content">
+                        <div class="gameplay-visualization">
+                            <img src="images/reversi.png" alt="Capture d'écran de Reversi" class="gameplay-demo">
+                            <div class="gameplay-caption">
+                                <p>Le plateau de jeu de Reversi avec les pions noirs et rouges. Le joueur actif place un pion qui capture les pions adverses encadrés.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Règles du jeu -->
+            <div class="tab-content" id="regles-content">
+                <div class="game-section">
+                    <h3 class="section-title">Règles détaillées</h3>
+                    <div class="section-content">
+                        <ol class="rules-list">
+                            <li>Le jeu se joue sur un plateau 8×8 avec une configuration initiale de 4 pions au centre (2 noirs et 2 rouges).</li>
+                            <li>Le joueur noir commence toujours la partie.</li>
+                            <li>À chaque tour, le joueur doit placer un pion de sa couleur sur une case vide qui permet de capturer au moins un pion adverse.</li>
+                            <li>La capture se fait en encadrant une ligne de pions adverses entre deux pions de sa couleur (horizontalement, verticalement ou en diagonale).</li>
+                            <li>Tous les pions adverses encadrés sont retournés et deviennent de la couleur du joueur actif.</li>
+                            <li>Si un joueur ne peut pas jouer (aucun coup valide), le tour passe à l'adversaire.</li>
+                            <li>Le jeu se termine lorsque le plateau est plein ou qu'aucun joueur ne peut plus jouer.</li>
+                            <li>Le joueur avec le plus grand nombre de pions de sa couleur à la fin de la partie est le gagnant.</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Contrôles et interface</h3>
+                    <div class="section-content">
+                        <ul>
+                            <li><strong>Clic gauche sur une case valide</strong> : Place un pion de votre couleur</li>
+                            <li><strong>Bouton "Nouvelle partie"</strong> : Réinitialise le jeu</li>
+                            <li><strong>Affichage du score</strong> : Montre le nombre de pions de chaque joueur</li>
+                            <li><strong>Indicateur de tour</strong> : Indique quel joueur doit jouer</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Stratégies et astuces</h3>
+                    <div class="section-content">
+                        <ul class="tips-list">
+                            <li><strong>Contrôlez les coins</strong> : Les coins sont stratégiquement cruciaux car les pions placés dans les coins ne peuvent jamais être capturés.</li>
+                            <li><strong>Évitez les cases adjacentes aux coins</strong> : Si vous jouez dans une case adjacente à un coin vide, vous risquez de donner l'opportunité à votre adversaire de prendre le coin.</li>
+                            <li><strong>Mobilité avant quantité</strong> : Avoir plus d'options de jeu (mobilité) est souvent plus important que d'avoir plus de pions en milieu de partie.</li>
+                            <li><strong>Pensez à long terme</strong> : Parfois, il vaut mieux sacrifier des pions à court terme pour obtenir un avantage positionnel à long terme.</li>
+                            <li><strong>Contrôlez les bords</strong> : Après les coins, les bords sont les positions les plus stables car ils ne peuvent être capturés que d'un côté.</li>
+                            <li><strong>Forcez votre adversaire</strong> : Essayez de forcer votre adversaire à jouer des coups qui vous donnent accès aux positions stratégiques.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Aspects techniques -->
+            <div class="tab-content" id="technique-content">
+                <div class="game-section">
+                    <h3 class="section-title">Architecture du code</h3>
+                    <div class="section-content">
+                        <p>Reversi est implémenté en Python avec une architecture qui sépare clairement la logique du jeu de l'interface graphique :</p>
+                        <ul>
+                            <li><strong>Modèle</strong> : Représentation du plateau, vérification des coups valides, application des retournements</li>
+                            <li><strong>Vue</strong> : Interface graphique avec Tkinter, affichage du plateau et des scores</li>
+                            <li><strong>Contrôleur</strong> : Gestion des interactions utilisateur et alternance des tours</li>
+                        </ul>
+                        <p>Cette séparation permet une meilleure modularité et facilite la maintenance du code.</p>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Algorithmes clés</h3>
+                    <div class="section-content">
+                        <div class="algorithm-showcase">
+                            <h4>Vérification des coups valides</h4>
+                            <div class="algorithm-explanation">
+                                <div class="algorithm-description">
+                                    <p>Pour déterminer si un coup est valide, le jeu vérifie si la case est vide et si elle permet de capturer au moins un pion adverse.</p>
+                                    <p>L'algorithme explore les 8 directions (horizontales, verticales et diagonales) à partir de la case sélectionnée pour identifier les pions adverses qui seraient encadrés.</p>
+                                    <div class="code-snippet">
+                                        <pre><code>def case_jouable(M, i, j):
+    """Renvoie True si la case est jouable, False sinon."""
+    if M[i][j] is not None:
+        return False
+    for di in [-1, 0, 1]:
+        for dj in [-1, 0, 1]:
+            ni, nj = i + di, j + dj
+            if 0 <= ni < len(M) and 0 <= nj < len(M) and M[ni][nj] is not None:
+                return True
+    return False</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="algorithm-showcase">
+                            <h4>Détection des encadrements</h4>
+                            <div class="algorithm-explanation">
+                                <div class="algorithm-description">
+                                    <p>Lorsqu'un joueur place un pion, le jeu doit identifier tous les pions adverses qui sont encadrés et doivent être retournés.</p>
+                                    <p>L'algorithme parcourt les 8 directions à partir du pion placé, identifie les lignes de pions adverses qui sont terminées par un pion du joueur actif, et retourne tous les pions encadrés.</p>
+                                    <div class="code-snippet">
+                                        <pre><code>def detecter_extremites(M, i, j):
+    """Renvoie les cases qui donnent lieu à un encadrement avec M[i][j]."""
+    extremites = set()
+    joueur = M[i][j]
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
+    for di, dj in directions:
+        ni, nj = i + di, j + dj
+        while 0 <= ni < len(M) and 0 <= nj < len(M):
+            if M[ni][nj] == joueur:
+                extremites.add((ni, nj))
+                break
+            elif M[ni][nj] is None:
+                break
+            ni += di
+            nj += dj
+    return extremites</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Défis d'implémentation</h3>
+                    <div class="section-content">
+                        <p>Le développement de Reversi a présenté plusieurs défis techniques intéressants :</p>
+                        <ul>
+                            <li><strong>Algorithme de détection des encadrements</strong> : Implémenter un algorithme efficace qui identifie correctement tous les pions à retourner dans les 8 directions.</li>
+                            <li><strong>Gestion des tours</strong> : Gérer correctement l'alternance des tours, y compris les situations où un joueur ne peut pas jouer.</li>
+                            <li><strong>Détection de fin de partie</strong> : Déterminer quand la partie est terminée (plateau plein ou aucun joueur ne peut jouer).</li>
+                            <li><strong>Interface intuitive</strong> : Créer une interface qui montre clairement l'état du jeu, les scores et le joueur actif.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-to-games">
+                <a href="../../index.html#projets" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au portfolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">JO</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 Jordan Oshoffa. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../index.html#accueil">Accueil</a>
+                    <a href="../../index.html#a-propos">À Propos</a>
+                    <a href="../../index.html#competences">Compétences</a>
+                    <a href="../../index.html#projets">Projets</a>
+                    <a href="../../index.html#formation">Formation</a>
+                    <a href="../../index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <a href="#"><i class="fas fa-arrow-up"></i></a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/script.js"></script>
+    <script src="js/reversi.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion des tabs
+            const tabs = document.querySelectorAll('.game-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Désactiver tous les tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Activer le tab cliqué
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

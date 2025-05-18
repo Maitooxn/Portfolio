@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Lines - Jordan Oshoffa</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="mini-jeux.css">
+    <link rel="stylesheet" href="mini-jeux-enhanced.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div class="preloader">
+        <div class="loader">
+            <span class="loader-text">LOADING</span>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Curseur personnalisé -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar scrolled">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-text">JO</span>
+                <div class="logo-dot"></div>
+            </div>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#accueil" class="nav-link">Accueil</a></li>
+                <li class="nav-item"><a href="../../index.html#projets" class="nav-link">Projets</a></li>
+                <li class="nav-item"><a href="index.html" class="nav-link active">Mini-Jeux</a></li>
+                <li class="nav-item"><a href="../../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section Color Lines -->
+    <section class="mini-jeux-section">
+        <div class="container">
+            <div class="game-header">
+                <h1>Color Lines</h1>
+                <p>Un jeu de réflexion stratégique où vous devez aligner des billes de même couleur</p>
+            </div>
+            
+            <!-- Tabs de navigation -->
+            <div class="game-tabs">
+                <div class="game-tab active" data-tab="jouer">Jouer</div>
+                <div class="game-tab" data-tab="presentation">Présentation</div>
+                <div class="game-tab" data-tab="regles">Règles du jeu</div>
+                <div class="game-tab" data-tab="technique">Aspects techniques</div>
+            </div>
+            
+            <!-- Tab Jouer -->
+            <div class="tab-content active" id="jouer-content">
+                <div class="game-container">
+                    <div class="game-info">
+                        <canvas id="next-balls-canvas"></canvas>
+                        <canvas id="score-canvas"></canvas>
+                    </div>
+                    
+                    <div class="game-board">
+                        <canvas id="game-canvas"></canvas>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <button id="reset-button">Nouvelle partie</button>
+                    </div>
+                </div>
+                
+                <div class="download-section">
+                    <p>Vous pouvez également télécharger la version Python du jeu pour y jouer hors ligne :</p>
+                    <a href="jeux/colorlines.py" download class="btn btn-primary">
+                        <i class="fas fa-download"></i> Télécharger Color Lines (Python)
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Tab Présentation -->
+            <div class="tab-content" id="presentation-content">
+                <div class="game-section">
+                    <h3 class="section-title">Concept et objectifs</h3>
+                    <div class="section-content">
+                        <div class="concept-overview">
+                            <p>Color Lines est un jeu de réflexion stratégique où vous devez créer des alignements de billes colorées tout en gérant l'espace limité du plateau. Inspiré du jeu classique "Lines" des années 90, il combine planification tactique et gestion de ressources.</p>
+                            
+                            <div class="game-objective">
+                                <h4>Objectif</h4>
+                                <p>Aligner au moins 5 billes de même couleur horizontalement, verticalement ou en diagonale pour les faire disparaître et marquer des points. La partie continue jusqu'à ce que le plateau soit complètement rempli.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Origine et inspiration</h3>
+                    <div class="section-content">
+                        <p>Color Lines s'inspire du jeu "Lines" créé par Oleg Demin en 1992. Ce jeu a connu un grand succès sur les premiers ordinateurs personnels et a donné naissance à de nombreuses variantes. Notre implémentation modernise ce concept classique avec une interface graphique fluide et des algorithmes optimisés.</p>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Aperçu du gameplay</h3>
+                    <div class="section-content">
+                        <div class="gameplay-visualization">
+                            <img src="images/colorlines.png" alt="Capture d'écran de Color Lines" class="gameplay-demo">
+                            <div class="gameplay-caption">
+                                <p>Le plateau de jeu de Color Lines avec des billes de différentes couleurs. Les cases vertes indiquent les destinations possibles pour la bille sélectionnée.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Règles du jeu -->
+            <div class="tab-content" id="regles-content">
+                <div class="game-section">
+                    <h3 class="section-title">Règles détaillées</h3>
+                    <div class="section-content">
+                        <ol class="rules-list">
+                            <li>Le jeu se déroule sur une grille 9×9 initialement parsemée de quelques billes colorées.</li>
+                            <li>À chaque tour, vous pouvez déplacer une bille vers une case vide accessible (en vert).</li>
+                            <li>Une case est accessible si elle est vide et si on peut y accéder par des déplacements horizontaux ou verticaux sans rencontrer d'obstacles.</li>
+                            <li>Après chaque déplacement, trois nouvelles billes apparaissent aléatoirement sur le plateau.</li>
+                            <li>Lorsque vous alignez au moins 5 billes de même couleur (horizontalement, verticalement ou en diagonale), elles disparaissent et vous marquez des points.</li>
+                            <li>Vous gagnez 2 points pour chaque bille éliminée.</li>
+                            <li>Le jeu se termine lorsque le plateau est plein et qu'aucun mouvement n'est possible.</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Contrôles et interface</h3>
+                    <div class="section-content">
+                        <ul>
+                            <li><strong>Clic gauche sur une bille</strong> : Sélectionne la bille à déplacer</li>
+                            <li><strong>Clic gauche sur une case verte</strong> : Déplace la bille sélectionnée vers cette case</li>
+                            <li><strong>Bouton "Nouvelle partie"</strong> : Réinitialise le jeu</li>
+                            <li><strong>Affichage "Suivantes"</strong> : Montre les couleurs des trois prochaines billes qui apparaîtront</li>
+                            <li><strong>Affichage "Score"</strong> : Indique votre score actuel</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Stratégies et astuces</h3>
+                    <div class="section-content">
+                        <ul class="tips-list">
+                            <li><strong>Planifiez à l'avance</strong> : Utilisez l'indicateur des prochaines billes pour anticiper vos mouvements.</li>
+                            <li><strong>Gardez le centre dégagé</strong> : Essayez de former vos alignements près des bords pour garder le centre du plateau accessible.</li>
+                            <li><strong>Créez plusieurs opportunités</strong> : Positionnez vos billes pour avoir plusieurs alignements potentiels.</li>
+                            <li><strong>Priorisez les grands groupes</strong> : Si vous avez le choix entre éliminer plusieurs groupes, commencez par le plus grand pour libérer plus d'espace.</li>
+                            <li><strong>Attention aux blocages</strong> : Évitez de créer des configurations qui bloquent l'accès à certaines parties du plateau.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Aspects techniques -->
+            <div class="tab-content" id="technique-content">
+                <div class="game-section">
+                    <h3 class="section-title">Architecture du code</h3>
+                    <div class="section-content">
+                        <p>Color Lines est implémenté en Python avec une architecture qui sépare clairement la logique du jeu de l'interface graphique :</p>
+                        <ul>
+                            <li><strong>Modèle</strong> : Gestion de l'état du jeu, détection des alignements, calcul des scores</li>
+                            <li><strong>Vue</strong> : Interface graphique avec Tkinter, affichage du plateau et des informations</li>
+                            <li><strong>Contrôleur</strong> : Gestion des interactions utilisateur et mise à jour du modèle</li>
+                        </ul>
+                        <p>Cette séparation permet une meilleure modularité et facilite la maintenance du code.</p>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Algorithmes clés</h3>
+                    <div class="section-content">
+                        <div class="algorithm-showcase">
+                            <h4>Recherche de chemin</h4>
+                            <div class="algorithm-explanation">
+                                <div class="algorithm-description">
+                                    <p>Pour déterminer si un déplacement est possible, le jeu utilise un algorithme de parcours en profondeur (DFS) qui explore toutes les cases accessibles à partir de la position de départ.</p>
+                                    <p>Cet algorithme garantit de trouver tous les chemins possibles et identifie les cases accessibles en tenant compte des obstacles.</p>
+                                    <div class="code-snippet">
+                                        <pre><code>def cases_accessibles(M, i, j, deja_visitees):
+    """Renvoie l'ensemble des cases accessibles à partir de la case M[i][j]."""
+    if (i, j) in deja_visitees:
+        return set()
+    deja_visitees.add((i, j))
+    accessibles = set()
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+    for di, dj in directions:
+        ni, nj = i + di, j + dj
+        if 0 <= ni < len(M) and 0 <= nj < len(M[0]) and M[ni][nj] is None:
+            accessibles.add((ni, nj))
+            accessibles.update(cases_accessibles(M, ni, nj, deja_visitees))
+
+    return accessibles</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="algorithm-showcase">
+                            <h4>Détection des alignements</h4>
+                            <div class="algorithm-explanation">
+                                <div class="algorithm-description">
+                                    <p>Après chaque coup, le jeu vérifie si des alignements d'au moins 5 billes de même couleur ont été formés dans trois directions : horizontale, verticale et diagonale.</p>
+                                    <p>L'algorithme parcourt le plateau et compte les séquences consécutives de billes de même couleur. Lorsqu'une séquence d'au moins 5 billes est détectée, les coordonnées de ces billes sont ajoutées à un ensemble pour être ensuite retirées du plateau.</p>
+                                    <div class="code-snippet">
+                                        <pre><code>def detections_horizontales(M):
+    """Détecte les alignements horizontaux d'au moins 5 billes."""
+    a_retirer = set()
+    for i, ligne in enumerate(M):
+        compteur = 1
+        for j in range(1, len(ligne)):
+            if ligne[j] is not None and ligne[j] == ligne[j - 1]:
+                compteur += 1
+            else:
+                if compteur >= 5:
+                    a_retirer.update({(i, k) for k in range(j - compteur, j)})
+                compteur = 1
+        if compteur >= 5:
+            a_retirer.update({(i, k) for k in range(len(ligne) - compteur, len(ligne))})
+    return a_retirer</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Défis d'implémentation</h3>
+                    <div class="section-content">
+                        <p>Le développement de Color Lines a présenté plusieurs défis techniques intéressants :</p>
+                        <ul>
+                            <li><strong>Algorithme de recherche de chemin efficace</strong> : Trouver un équilibre entre performance et précision pour la détection des cases accessibles.</li>
+                            <li><strong>Détection des alignements dans toutes les directions</strong> : Implémenter un algorithme robuste qui vérifie les alignements horizontaux, verticaux et diagonaux sans redondance.</li>
+                            <li><strong>Génération aléatoire équilibrée</strong> : Assurer que l'apparition des nouvelles billes est suffisamment aléatoire tout en maintenant un équilibre entre les différentes couleurs.</li>
+                            <li><strong>Interface réactive</strong> : Créer une interface utilisateur fluide qui met clairement en évidence les cases sélectionnées et les destinations possibles.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-to-games">
+                <a href="../../index.html#projets" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au portfolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">JO</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 Jordan Oshoffa. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../index.html#accueil">Accueil</a>
+                    <a href="../../index.html#a-propos">À Propos</a>
+                    <a href="../../index.html#competences">Compétences</a>
+                    <a href="../../index.html#projets">Projets</a>
+                    <a href="../../index.html#formation">Formation</a>
+                    <a href="../../index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <a href="#"><i class="fas fa-arrow-up"></i></a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/script.js"></script>
+    <script src="js/colorlines.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion des tabs
+            const tabs = document.querySelectorAll('.game-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Désactiver tous les tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Activer le tab cliqué
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

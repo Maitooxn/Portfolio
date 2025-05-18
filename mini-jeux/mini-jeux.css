@@ -1,0 +1,170 @@
+/* Styles pour les mini-jeux */
+
+/* Styles de base pour les conteneurs de jeu */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.game-board {
+    margin-bottom: 1.5rem;
+}
+
+.game-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.game-info {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Styles pour les instructions et sections d'information */
+.instructions {
+    background-color: rgba(255,255,255,0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.download-section {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+/* Styles pour les éléments de jeu */
+canvas {
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Boutons et contrôles */
+#reset-button, .btn {
+    background-color: #f5aa42;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#reset-button:hover, .btn:hover {
+    background-color: #e09932;
+}
+
+.btn-secondary {
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+/* Navigation entre les jeux */
+.back-to-games, .back-to-portfolio {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+/* Styles pour les sections de contenu */
+.game-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+@media (min-width: 768px) {
+    .game-content {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .game-image {
+        flex: 1;
+    }
+    
+    .game-description {
+        flex: 1;
+    }
+}
+
+.game-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.game-description h3 {
+    margin-top: 0;
+    color: #f5aa42;
+}
+
+.game-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* Code preview */
+.code-preview {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    display: none;
+}
+
+.code-preview h3 {
+    margin-top: 0;
+    color: #f5aa42;
+}
+
+.code-preview pre {
+    background-color: rgba(0,0,0,0.3);
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 0;
+}
+
+.code-preview code {
+    font-family: 'Roboto Mono', monospace;
+    color: #f5f5f5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .game-buttons {
+        flex-direction: column;
+    }
+    
+    .instructions {
+        padding: 1rem;
+    }
+}
