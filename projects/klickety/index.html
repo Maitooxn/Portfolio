@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Klickety - Jordan Oshoffa</title>
+<link href="../../css/style.css" rel="stylesheet"/>
+<link href="../../css/project-enhanced.css" rel="stylesheet"/>
+<link href="css/klickety.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;family=Roboto+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+</head>
+<body>
+<section class="project-header">
+<h1>Klickety</h1>
+<p>Klickety est un jeu où tu dois cliquer sur des groupes de blocs de même couleur pour les faire disparaître. Plus le groupe est grand, plus tu gagnes de points. L'objectif est de vider complètement le plateau en optimisant chaque coup.</p>
+<div class="project-versions">
+<strong>💡 Ce projet existe en deux versions :</strong><br/>
+            ✅ Une version Java <strong>fonctionnelle</strong> (incluse ci-dessous).<br/>
+            ⚠️ Une version Python (Tkinter) <strong>non finalisée</strong>, fournie à titre de démonstration uniquement.
+</div>
+<div class="download-buttons">
+<a download="" href="../../projects/python-files/klickety.py" class="btn btn-download">Télécharger la version Python (.py)</a>
+<a download="" href="../../projects/python-files/fltk.py" class="btn btn-download">Télécharger fltk.py</a>
+</div>
+<div class="return-link">
+<a href="../../../index.html#projets">Retour au portfolio</a>
+</div>
+</section>
+
+<!-- Préchargeur -->
+<div class="preloader">
+<div class="loader">
+<span class="loader-text">LOADING</span>
+<div class="loader-bar"></div>
+</div>
+</div>
+<!-- Curseur personnalisé -->
+<div class="cursor"></div>
+<div class="cursor-follower"></div>
+<!-- Barre de navigation -->
+<nav class="navbar">
+<div class="navbar-container">
+<div class="logo">
+<a href="../../index.html">
+<span class="logo-text">JO</span>
+<div class="logo-dot"></div>
+</a>
+</div>
+<div class="menu-toggle">
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+</div>
+<ul class="nav-menu">
+<li class="nav-item"><a class="nav-link" href="../../index.html#accueil">Accueil</a></li>
+<li class="nav-item"><a class="nav-link" href="../../index.html#a-propos">À Propos</a></li>
+<li class="nav-item"><a class="nav-link" href="../../index.html#competences">Compétences</a></li>
+<li class="nav-item"><a class="nav-link active" href="../../index.html#projets">Projets</a></li>
+<li class="nav-item"><a class="nav-link" href="../../index.html#formation">Formation</a></li>
+<li class="nav-item"><a class="nav-link" href="../../index.html#contact">Contact</a></li>
+</ul>
+</div>
+</nav>
+<!-- Section Projet Klickety -->
+<section class="project-details">
+<div class="container">
+<div class="section-header">
+<h2 class="section-title">Klickety</h2>
+<div class="section-line"></div>
+</div>
+<div class="project-content">
+<div class="project-info">
+<div class="project-description">
+<h3>Description du projet</h3>
+<p>Klickety est un jeu de puzzle inspiré de SameGame où le joueur doit éliminer des groupes de blocs de même couleur. Lorsque le joueur clique sur un groupe de blocs adjacents de même couleur, ces blocs disparaissent et les blocs au-dessus tombent pour combler les espaces vides. L'objectif est d'éliminer tous les blocs du plateau ou d'obtenir le score le plus élevé possible. La stratégie consiste à planifier ses coups pour créer de grands groupes de blocs de même couleur, maximisant ainsi le score obtenu.</p>
+<p>Ce projet démontre ma maîtrise des algorithmes de recherche en largeur (BFS) pour la détection de groupes connectés, ainsi que ma capacité à implémenter des systèmes de physique simplifiés pour la chute des blocs. J'ai également conçu un système de scoring progressif qui récompense les stratégies avancées, illustrant ma compréhension des mécaniques de jeu qui favorisent l'engagement des utilisateurs.</p>
+<p>J'ai développé ce jeu en deux versions : une en Java avec JavaFX qui exploite les transitions animées pour une expérience visuelle fluide, et une en Python avec la bibliothèque FLTK pour une implémentation plus accessible. Cette approche double souligne ma capacité à adapter mes compétences techniques à différents environnements de développement tout en maintenant une cohérence dans la conception et l'expérience utilisateur.</p>
+</div>
+<div class="project-features">
+<h3>Fonctionnalités</h3>
+<ul>
+<li>Algorithme de recherche en largeur (BFS) optimisé pour la détection des groupes connectés, démontrant ma maîtrise des structures de données (files, ensembles) et des algorithmes de parcours de graphes</li>
+<li>Système de physique simplifié pour la simulation de chute des blocs avec détection de collision et résolution de contraintes, illustrant mes compétences en programmation de mécaniques de jeu</li>
+<li>Système de score progressif avec fonction quadratique (n²-n) récompensant les stratégies d'élimination de grands groupes, basé sur des principes de game design pour maximiser l'engagement</li>
+<li>Moteur d'animation paramétrable avec courbes d'accélération personnalisées pour des transitions fluides et naturelles</li>
+<li>Architecture événementielle permettant une séparation claire entre la logique de jeu et l'interface utilisateur, facilitant les tests unitaires et l'évolution du code</li>
+<li>Système de sauvegarde persistant utilisant la sérialisation JSON pour stocker les configurations et les meilleurs scores</li>
+</ul>
+</div>
+<div class="project-technologies">
+<h3>Technologies utilisées</h3>
+<div class="tech-tags">
+<span class="tech-tag">Java</span>
+<span class="tech-tag">JavaFX</span>
+<span class="tech-tag">Python</span>
+<span class="tech-tag">FLTK</span>
+<span class="tech-tag">Algorithme BFS</span>
+<span class="tech-tag">Architecture événementielle</span>
+<span class="tech-tag">JSON</span>
+<span class="tech-tag">Animation avancée</span>
+</div>
+</div>
+<div class="project-buttons">
+<a class="btn btn-primary" href="#details" id="details-btn">Détails</a>
+<a class="btn btn-secondary" href="#play" id="play-btn">Jouer au jeu</a>
+</div>
+</div>
+<div class="project-showcase">
+<div class="project-image">
+<img alt="Aperçu du jeu Klickety" onerror="this.src='../../images/project-placeholder.jpg'" src="images/klickety-preview.png"/>
+</div>
+</div>
+</div>
+<!-- Section détaillée (cachée par défaut) -->
+<div class="project-details-section" id="details">
+<h3>Détails techniques</h3>
+<div class="implementation-details">
+<h4>Version Java</h4>
+<p>La version Java du jeu Klickety utilise JavaFX pour l'interface graphique et s'appuie sur une architecture modulaire orientée événements pour une séparation claire des responsabilités :</p>
+<ul>
+<li><strong>KlicketyGame</strong> : Contrôleur principal qui orchestre le flux de jeu et gère le cycle de vie de l'application</li>
+<li><strong>GameBoard</strong> : Modèle central implémentant la logique du plateau avec une représentation matricielle optimisée pour les opérations de recherche et de manipulation</li>
+<li><strong>Block</strong> : Entité encapsulant les propriétés des blocs avec un système d'états pour gérer les différentes phases (normal, sélectionné, en chute)</li>
+<li><strong>GroupFinder</strong> : Implémentation optimisée de l'algorithme BFS utilisant une file (Queue) et un ensemble (Set) pour éviter les explorations redondantes, avec une complexité temporelle de O(n) où n est le nombre de blocs</li>
+<li><strong>ScoreManager</strong> : Système sophistiqué de calcul et de persistance des scores utilisant une formule quadratique pour récompenser les stratégies avancées</li>
+<li><strong>AnimationManager</strong> : Moteur d'animation paramétrable exploitant les transitions JavaFX avec des courbes d'accélération personnalisées pour un rendu naturel</li>
+</ul>
+<p>Le système de détection des groupes utilise l'algorithme BFS (Breadth-First Search) qui explore le plateau niveau par niveau à partir d'un bloc initial, identifiant efficacement tous les blocs connectés de même couleur. Pour la simulation de chute, j'ai implémenté un système de physique simplifié qui calcule les trajectoires et les positions finales des blocs en tenant compte des contraintes du plateau, avec des optimisations pour éviter les calculs redondants.</p>
+<h4>Version Python</h4>
+<p>La version Python utilise la bibliothèque FLTK pour l'interface graphique, offrant une implémentation légère mais puissante. L'architecture respecte les mêmes principes de conception que la version Java :</p>
+<ul>
+<li><strong>KlicketyGame</strong> : Contrôleur principal gérant l'état du jeu et la coordination entre les composants</li>
+<li><strong>Board</strong> : Modèle de données utilisant des structures optimisées pour Python (listes de listes avec accès par index)</li>
+<li><strong>Block</strong> : Implémentation légère des blocs avec propriétés essentielles (couleur, position, état)</li>
+<li><strong>GroupDetector</strong> : Algorithme BFS adapté à Python, utilisant des collections (deque pour la file, set pour les visités) pour une performance optimale</li>
+<li><strong>ScoreSystem</strong> : Système de scoring avec persistance via JSON pour une compatibilité cross-platform</li>
+<li><strong>Animation</strong> : Système d'animation personnalisé utilisant des interpolations temporelles pour compenser l'absence de transitions natives dans FLTK</li>
+</ul>
+<p>Pour optimiser les performances en Python, j'ai implémenté plusieurs techniques spécifiques comme la réduction des allocations mémoire dans les boucles critiques, l'utilisation de structures de données pré-allouées, et l'optimisation des calculs de rendu pour minimiser les opérations de dessin. Ces optimisations permettent d'obtenir une expérience fluide même sur des configurations modestes, démontrant ma capacité à adapter les algorithmes aux contraintes spécifiques de chaque environnement d'exécution.</p>
+</div>
+<div class="code-samples">
+<h4>Extraits de code</h4>
+<div class="code-sample">
+<h5>Java - Algorithme de détection des groupes</h5>
+<pre><code>
+public List&lt;Point&gt; findGroup(int x, int y) {
+    if (x &lt; 0 || x &gt;= width || y &lt; 0 || y &gt;= height || grid[y][x] == null) {
+        return new ArrayList&lt;&gt;();
+    }
+    
+    int targetColor = grid[y][x].getColorIndex();
+    List&lt;Point&gt; group = new ArrayList&lt;&gt;();
+    boolean[][] visited = new boolean[height][width];
+    
+    // Utiliser une file pour la recherche en largeur (BFS)
+    Queue&lt;Point&gt; queue = new LinkedList&lt;&gt;();
+    queue.add(new Point(x, y));
+    visited[y][x] = true;
+    
+    while (!queue.isEmpty()) {
+        Point p = queue.poll();
+        group.add(p);
+        
+        // Vérifier les quatre directions adjacentes
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}}; // Bas, Droite, Haut, Gauche
+        
+        for (int[] dir : directions) {
+            int nx = p.x + dir[0];
+            int ny = p.y + dir[1];
+            
+            if (nx &gt;= 0 &amp;&amp; nx &lt; width &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; height &amp;&amp; 
+                !visited[ny][nx] &amp;&amp; grid[ny][nx] != null &amp;&amp; 
+                grid[ny][nx].getColorIndex() == targetColor) {
+                
+                queue.add(new Point(nx, ny));
+                visited[ny][nx] = true;
+            }
+        }
+    }
+    
+    return group;
+}
+                        </code></pre>
+</div>
+<div class="code-sample">
+<h5>Python - Gestion de la chute des blocs</h5>
+<pre><code>
+def apply_gravity(self):
+    """Fait tomber les blocs pour combler les espaces vides"""
+    # Créer une liste d'animations à effectuer
+    animations = []
+    
+    # Parcourir chaque colonne de bas en haut
+    for x in range(self.width):
+        # Trouver les espaces vides et faire tomber les blocs
+        empty_spaces = 0
+        
+        for y in range(self.height - 1, -1, -1):
+            if self.grid[y][x] is None:
+                empty_spaces += 1
+            elif empty_spaces &gt; 0:
+                # Déplacer le bloc vers le bas
+                block = self.grid[y][x]
+                self.grid[y][x] = None
+                self.grid[y + empty_spaces][x] = block
+                
+                # Ajouter une animation pour ce bloc
+                animations.append({
+                    'block': block,
+                    'start_y': y,
+                    'end_y': y + empty_spaces,
+                    'x': x,
+                    'progress': 0
+                })
+    
+    return animations
+
+def animate_falling_blocks(self, animations):
+    """Anime la chute des blocs"""
+    animation_speed = 0.1  # Vitesse d'animation
+    all_complete = False
+    
+    while not all_complete:
+        # Mettre à jour les animations
+        all_complete = True
+        
+        for anim in animations:
+            if anim['progress'] &lt; 1:
+                anim['progress'] += animation_speed
+                all_complete = False
+            
+            if anim['progress'] &gt; 1:
+                anim['progress'] = 1
+        
+        # Dessiner l'état actuel
+        self.draw_board()
+        
+        # Dessiner les blocs en animation
+        for anim in animations:
+            if anim['progress'] &lt; 1:
+                # Calculer la position actuelle
+                current_y = anim['start_y'] + (anim['end_y'] - anim['start_y']) * anim['progress']
+                
+                # Dessiner le bloc à sa position intermédiaire
+                self.draw_block(
+                    anim['x'], 
+                    current_y, 
+                    anim['block'].color, 
+                    is_animated=True
+                )
+        
+        pygame.display.flip()
+        self.clock.tick(60)
+                        </code></pre>
+</div>
+</div>
+<div class="download-section">
+<h4>Téléchargement</h4>
+<p>Vous pouvez télécharger les sources du jeu pour les exécuter sur votre machine :</p>
+<div class="download-buttons">
+<a class="btn btn-download" download="" href="java/KlicketyJava.zip">Télécharger la version Java</a>
+<a class="btn btn-download" download="" href="python/KlicketyPython.zip">Télécharger la version Python</a>
+</div>
+<div class="installation-instructions">
+<h5>Instructions d'installation - Java</h5>
+<ol>
+<li>Assurez-vous d'avoir Java JDK 11 ou supérieur installé</li>
+<li>Décompressez l'archive KlicketyJava.zip</li>
+<li>Ouvrez un terminal dans le dossier décompressé</li>
+<li>Exécutez <code>javac *.java</code> pour compiler</li>
+<li>Exécutez <code>java KlicketyGame</code> pour lancer le jeu</li>
+</ol>
+<h5>Instructions d'installation - Python</h5>
+<ol>
+<li>Assurez-vous d'avoir Python 3.6 ou supérieur installé</li>
+<li>Installez Pygame avec <code>pip install pygame</code></li>
+<li>Décompressez l'archive KlicketyPython.zip</li>
+<li>Exécutez <code>python klickety.py</code> pour lancer le jeu</li>
+</ol>
+</div>
+</div>
+</div>
+<!-- Section de jeu (cachée par défaut) -->
+<div class="game-section" id="play">
+<h3>Jouer à Klickety</h3>
+<div class="game-container">
+<div class="game-frame">
+<iframe frameborder="0" height="600" src="js/klickety.html" width="100%"></iframe>
+</div>
+<div class="game-controls">
+<h4>Contrôles</h4>
+<ul>
+<li><strong>Clic gauche</strong> : Éliminer un groupe de blocs</li>
+<li><strong>R</strong> : Recommencer la partie</li>
+<li><strong>1-3</strong> : Changer le niveau de difficulté</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pied de page -->
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-logo">
+<span class="logo-text">JO</span>
+<div class="logo-dot"></div>
+</div>
+<div class="footer-links">
+<a href="../../index.html#accueil">Accueil</a>
+<a href="../../index.html#a-propos">À Propos</a>
+<a href="../../index.html#competences">Compétences</a>
+<a href="../../index.html#projets">Projets</a>
+<a href="../../index.html#formation">Formation</a>
+<a href="../../index.html#contact">Contact</a>
+</div>
+<div class="footer-social">
+<a class="social-link" href="#"><i class="fab fa-github"></i></a>
+<a class="social-link" href="#"><i class="fab fa-linkedin-in"></i></a>
+<a class="social-link" href="mailto:etudejordan24370@gmail.com"><i class="fas fa-envelope"></i></a>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 Jordan Oshoffa. Tous droits réservés.</p>
+</div>
+</div>
+</footer>
+<!-- Scripts -->
+<script src="../../js/main.js"></script>
+<script src="js/klickety.js"></script>
+<script>
+        // Script pour afficher/masquer les sections détaillées
+        document.addEventListener('DOMContentLoaded', function() {
+            const detailsBtn = document.getElementById('details-btn');
+            const playBtn = document.getElementById('play-btn');
+            const detailsSection = document.getElementById('details');
+            const playSection = document.getElementById('play');
+            
+            // Masquer les sections au chargement
+            detailsSection.style.display = 'none';
+            playSection.style.display = 'none';
+            
+            detailsBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (detailsSection.style.display === 'none') {
+                    detailsSection.style.display = 'block';
+                    playSection.style.display = 'none';
+                    detailsBtn.classList.add('active');
+                    playBtn.classList.remove('active');
+                    // Scroll to the details section
+                    detailsSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    detailsSection.style.display = 'none';
+                    detailsBtn.classList.remove('active');
+                }
+            });
+            
+            playBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (playSection.style.display === 'none') {
+                    playSection.style.display = 'block';
+                    detailsSection.style.display = 'none';
+                    playBtn.classList.add('active');
+                    detailsBtn.classList.remove('active');
+                    // Scroll to the play section
+                    playSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    playSection.style.display = 'none';
+                    playBtn.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

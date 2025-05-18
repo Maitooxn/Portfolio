@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klickety - Jordan Oshoffa</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="mini-jeux.css">
+    <link rel="stylesheet" href="mini-jeux-enhanced.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div class="preloader">
+        <div class="loader">
+            <span class="loader-text">LOADING</span>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Curseur personnalisé -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar scrolled">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-text">JO</span>
+                <div class="logo-dot"></div>
+            </div>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#accueil" class="nav-link">Accueil</a></li>
+                <li class="nav-item"><a href="../../index.html#projets" class="nav-link">Projets</a></li>
+                <li class="nav-item"><a href="index.html" class="nav-link active">Mini-Jeux</a></li>
+                <li class="nav-item"><a href="../../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section Klickety -->
+    <section class="mini-jeux-section">
+        <div class="container">
+            <div class="game-header">
+                <h1>Klickety</h1>
+                <p>Un jeu de puzzle où vous éliminez des groupes de blocs de même couleur</p>
+            </div>
+            
+            <!-- Tabs de navigation -->
+            <div class="game-tabs">
+                <div class="game-tab active" data-tab="jouer">Jouer</div>
+                <div class="game-tab" data-tab="presentation">Présentation</div>
+                <div class="game-tab" data-tab="regles">Règles du jeu</div>
+                <div class="game-tab" data-tab="technique">Aspects techniques</div>
+            </div>
+            
+            <!-- Tab Jouer -->
+            <div class="tab-content active" id="jouer-content">
+                <div class="game-container">
+                    <div class="game-info">
+                        <canvas id="bloc-count-canvas"></canvas>
+                    </div>
+                    
+                    <div class="game-board">
+                        <canvas id="game-canvas"></canvas>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <button id="reset-button">Nouvelle partie</button>
+                    </div>
+                </div>
+                
+                <div class="download-section">
+                    <p>Vous pouvez également télécharger la version Python du jeu pour y jouer hors ligne :</p>
+                    <a href="jeux/klickety.py" download class="btn btn-primary">
+                        <i class="fas fa-download"></i> Télécharger Klickety (Python)
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Tab Présentation -->
+            <div class="tab-content" id="presentation-content">
+                <div class="game-section">
+                    <h3 class="section-title">Concept et objectifs</h3>
+                    <div class="section-content">
+                        <div class="concept-overview">
+                            <p>Klickety est un jeu de puzzle captivant où vous devez éliminer des groupes de blocs de même couleur pour vider le plateau. Inspiré de jeux comme SameGame et Clickomania, il combine réflexion stratégique et planification.</p>
+                            
+                            <div class="game-objective">
+                                <h4>Objectif</h4>
+                                <p>L'objectif principal est d'éliminer tous les blocs du plateau. Pour cela, vous devez cliquer sur des groupes d'au moins deux blocs adjacents de même couleur. Après chaque élimination, les blocs au-dessus tombent pour remplir les espaces vides, et les colonnes vides sont supprimées.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Origine et inspiration</h3>
+                    <div class="section-content">
+                        <p>Klickety s'inspire de plusieurs jeux de puzzle populaires comme SameGame (créé au Japon en 1985) et Clickomania. Ces jeux ont connu un grand succès sur diverses plateformes, des ordinateurs personnels aux consoles de jeux et smartphones.</p>
+                        <p>Notre implémentation modernise ce concept classique avec une interface graphique fluide et des algorithmes optimisés pour la détection des groupes et la simulation de la gravité.</p>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Aperçu du gameplay</h3>
+                    <div class="section-content">
+                        <div class="gameplay-visualization">
+                            <img src="images/klickety.png" alt="Capture d'écran de Klickety" class="gameplay-demo">
+                            <div class="gameplay-caption">
+                                <p>Le plateau de jeu de Klickety avec des blocs colorés. Cliquez sur un groupe de blocs de même couleur pour les éliminer et voir les blocs au-dessus tomber.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Règles du jeu -->
+            <div class="tab-content" id="regles-content">
+                <div class="game-section">
+                    <h3 class="section-title">Règles détaillées</h3>
+                    <div class="section-content">
+                        <ol class="rules-list">
+                            <li>Le jeu se déroule sur une grille de 16×10 remplie de blocs colorés.</li>
+                            <li>Vous pouvez éliminer un groupe de blocs en cliquant sur l'un d'entre eux.</li>
+                            <li>Un groupe valide doit contenir au moins deux blocs adjacents de même couleur (connectés horizontalement ou verticalement, pas en diagonale).</li>
+                            <li>Après chaque élimination, les blocs situés au-dessus tombent pour remplir les espaces vides, simulant la gravité.</li>
+                            <li>Les colonnes entièrement vides sont automatiquement supprimées, et les colonnes restantes sont décalées vers la gauche.</li>
+                            <li>Le jeu se termine lorsque le plateau est vide (victoire) ou qu'il ne reste que des blocs isolés qui ne peuvent plus être éliminés (défaite).</li>
+                            <li>L'objectif est d'éliminer tous les blocs du plateau ou d'obtenir le score le plus élevé possible.</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Contrôles et interface</h3>
+                    <div class="section-content">
+                        <ul>
+                            <li><strong>Clic gauche sur un bloc</strong> : Élimine le groupe de blocs connectés de même couleur</li>
+                            <li><strong>Bouton "Nouvelle partie"</strong> : Réinitialise le jeu avec une nouvelle configuration aléatoire</li>
+                            <li><strong>Affichage "Blocs restants"</strong> : Indique le nombre de blocs encore présents sur le plateau</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Stratégies et astuces</h3>
+                    <div class="section-content">
+                        <ul class="tips-list">
+                            <li><strong>Commencez par le bas</strong> : Éliminez d'abord les groupes situés en bas du plateau pour créer des réactions en chaîne lorsque les blocs tombent.</li>
+                            <li><strong>Créez de grands groupes</strong> : Essayez de créer de grands groupes de même couleur avant de les éliminer pour maximiser votre score.</li>
+                            <li><strong>Pensez aux colonnes</strong> : Éliminez stratégiquement les blocs pour créer des colonnes vides qui seront supprimées, réorganisant ainsi le plateau.</li>
+                            <li><strong>Anticipez les chutes</strong> : Prévoyez comment les blocs vont tomber après chaque élimination pour créer de nouveaux groupes.</li>
+                            <li><strong>Évitez les blocs isolés</strong> : Faites attention à ne pas créer des configurations où des blocs se retrouvent isolés sans possibilité de les éliminer.</li>
+                            <li><strong>Planifiez plusieurs coups à l'avance</strong> : Les meilleurs joueurs anticipent 3 à 4 coups à l'avance pour optimiser leurs éliminations.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Aspects techniques -->
+            <div class="tab-content" id="technique-content">
+                <div class="game-section">
+                    <h3 class="section-title">Architecture du code</h3>
+                    <div class="section-content">
+                        <p>Klickety est implémenté en Python avec une architecture qui sépare clairement la logique du jeu de l'interface graphique :</p>
+                        <ul>
+                            <li><strong>Modèle</strong> : Gestion de l'état du plateau, détection des groupes, simulation de la gravité</li>
+                            <li><strong>Vue</strong> : Interface graphique avec Tkinter, affichage du plateau et des informations</li>
+                            <li><strong>Contrôleur</strong> : Gestion des interactions utilisateur et mise à jour du modèle</li>
+                        </ul>
+                        <p>Cette séparation permet une meilleure modularité et facilite la maintenance du code.</p>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Algorithmes clés</h3>
+                    <div class="section-content">
+                        <div class="algorithm-showcase">
+                            <h4>Détection des pièces connectées</h4>
+                            <div class="algorithm-explanation">
+                                <div class="algorithm-description">
+                                    <p>Pour identifier tous les blocs appartenant à un même groupe, le jeu utilise un algorithme de parcours en profondeur (DFS) qui explore récursivement les blocs adjacents de même couleur.</p>
+                                    <p>Cet algorithme garantit de trouver tous les blocs connectés et est essentiel pour déterminer quels blocs doivent être éliminés lorsque le joueur clique sur un groupe.</p>
+                                    <div class="code-snippet">
+                                        <pre><code>def detecter_piece(M, i, j, piece):
+    """Remplit l'ensemble piece avec les coordonnées des blocs
+    appartenant à la même pièce que M[i][j]."""
+    if (i, j) in piece or M[i][j] is None:
+        return
+
+    piece.add((i, j))
+    couleur = M[i][j]
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+    for di, dj in directions:
+        ni, nj = i + di, j + dj
+        if 0 <= ni < len(M) and 0 <= nj < len(M[0]) and M[ni][nj] == couleur:
+            detecter_piece(M, ni, nj, piece)</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="algorithm-showcase">
+                            <h4>Simulation de la gravité</h4>
+                            <div class="algorithm-explanation">
+                                <div class="algorithm-description">
+                                    <p>Après l'élimination d'un groupe de blocs, le jeu simule la gravité en faisant tomber les blocs situés au-dessus pour combler les espaces vides.</p>
+                                    <p>L'algorithme traite chaque colonne séparément, extrait les blocs non vides, puis les replace en bas de la colonne en complétant le haut avec des espaces vides.</p>
+                                    <div class="code-snippet">
+                                        <pre><code>def mettre_a_jour(M, piece):
+    """Fait tomber les blocs pour combler les espaces vides."""
+    # Parcourir chaque colonne
+    for j in range(len(M[0])):
+        # Extraire les blocs non vides de la colonne
+        colonne = [M[i][j] for i in range(len(M)) if M[i][j] is not None]
+        # Compléter avec None pour atteindre la hauteur du plateau
+        colonne = [None] * (len(M) - len(colonne)) + colonne
+        # Réinsérer la colonne mise à jour dans la matrice
+        for i in range(len(M)):
+            M[i][j] = colonne[i]</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="algorithm-showcase">
+                            <h4>Élimination des colonnes vides</h4>
+                            <div class="algorithm-explanation">
+                                <div class="algorithm-description">
+                                    <p>Le jeu réorganise le plateau en supprimant les colonnes entièrement vides et en décalant les colonnes restantes vers la gauche.</p>
+                                    <p>Cet algorithme est crucial pour maintenir un plateau de jeu compact et créer de nouvelles opportunités d'élimination.</p>
+                                    <div class="code-snippet">
+                                        <pre><code>def eliminer_colonnes_vides(M):
+    """Supprime les colonnes vides et décale les colonnes restantes."""
+    # Extraire les colonnes non vides
+    colonnes_non_vides = [
+        [M[i][j] for i in range(len(M))] for j in range(len(M[0]))
+        if any(M[i][j] is not None for i in range(len(M)))
+    ]
+    # Compléter avec des colonnes vides pour conserver la largeur
+    colonnes_vides = [[None for _ in range(len(M))]] * (len(M[0]) - len(colonnes_non_vides))
+    colonnes_reorganisees = colonnes_non_vides + colonnes_vides
+
+    # Réinsérer les colonnes dans la matrice
+    for j in range(len(M[0])):
+        for i in range(len(M)):
+            M[i][j] = colonnes_reorganisees[j][i]</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-section">
+                    <h3 class="section-title">Défis d'implémentation</h3>
+                    <div class="section-content">
+                        <p>Le développement de Klickety a présenté plusieurs défis techniques intéressants :</p>
+                        <ul>
+                            <li><strong>Algorithme de détection des groupes</strong> : Implémenter un algorithme efficace qui identifie correctement tous les blocs connectés de même couleur.</li>
+                            <li><strong>Simulation de la gravité</strong> : Créer un système qui fait tomber les blocs de manière réaliste après l'élimination d'un groupe.</li>
+                            <li><strong>Réorganisation du plateau</strong> : Gérer la suppression des colonnes vides et le décalage des colonnes restantes.</li>
+                            <li><strong>Détection de fin de partie</strong> : Déterminer quand la partie est terminée (plateau vide ou aucun groupe valide restant).</li>
+                            <li><strong>Interface réactive</strong> : Créer une interface utilisateur fluide qui reflète clairement les changements d'état du plateau.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-to-games">
+                <a href="../../index.html#projets" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au portfolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">JO</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 Jordan Oshoffa. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../index.html#accueil">Accueil</a>
+                    <a href="../../index.html#a-propos">À Propos</a>
+                    <a href="../../index.html#competences">Compétences</a>
+                    <a href="../../index.html#projets">Projets</a>
+                    <a href="../../index.html#formation">Formation</a>
+                    <a href="../../index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <a href="#"><i class="fas fa-arrow-up"></i></a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/script.js"></script>
+    <script src="js/klickety.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion des tabs
+            const tabs = document.querySelectorAll('.game-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Désactiver tous les tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Activer le tab cliqué
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

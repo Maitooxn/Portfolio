@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris - Jordan Oshoffa</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="tetris.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .fltk-version {
+          font-family: inherit !important;
+          color: inherit;
+        }
+      
+        .fltk-version h2, 
+        .fltk-version h3, 
+        .fltk-version h4, 
+        .fltk-version p, 
+        .fltk-version li, 
+        .fltk-version a {
+          font-family: inherit !important;
+          color: inherit;
+        }
+
+        /* Styles pour les onglets */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #555;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+        .tab-button:hover {
+            color: var(--primary-color);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div class="preloader">
+        <div class="loader">
+            <span class="loader-text">LOADING</span>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Curseur personnalisé -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar scrolled">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-text">JO</span>
+                <div class="logo-dot"></div>
+            </div>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#accueil" class="nav-link">Accueil</a></li>
+                <li class="nav-item"><a href="../../index.html#projets" class="nav-link active">Projets</a></li>
+                <li class="nav-item"><a href="../../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section Tetris -->
+    <section class="tetris-section">
+        <div class="container">
+            <div class="tetris-header">
+                <h1>Tetris</h1>
+                <p class="tetris-description">Un jeu de Tetris développé en Python avec plusieurs modes de jeu, adapté en JavaScript pour le web.</p>
+            </div>
+
+            <!-- Onglets -->
+            <div class="tabs">
+                <button class="tab-button active" onclick="openTab(event, 'jouer')">Jouer</button>
+                <button class="tab-button" onclick="openTab(event, 'detail')">Détail</button>
+            </div>
+
+            <!-- Contenu de l'onglet Jouer -->
+            <div id="jouer" class="tab-content active">
+                <div class="tetris-container">
+                    <div class="tetris-game">
+                        <div id="tetris-canvas-container">
+                            <canvas id="tetris-canvas" width="400" height="800"></canvas>
+                        </div>
+                        <div class="game-info">
+                            <div class="score-container">
+                                <div class="score-box">
+                                    <h3>Score</h3>
+                                    <p id="score">0</p>
+                                </div>
+                                <div class="score-box">
+                                    <h3>Niveau</h3>
+                                    <p id="level">1</p>
+                                </div>
+                                <div class="score-box">
+                                    <h3>Lignes</h3>
+                                    <p id="lines">0</p>
+                                </div>
+                            </div>
+                            <div class="next-piece">
+                                <h3>Pièce suivante</h3>
+                                <canvas id="next-piece-canvas" width="150" height="150"></canvas>
+                            </div>
+                            <div class="controls">
+                                <h3>Contrôles</h3>
+                                <ul>
+                                    <li><span class="key">←</span> Gauche</li>
+                                    <li><span class="key">→</span> Droite</li>
+                                    <li><span class="key">↓</span> Descendre</li>
+                                    <li><span class="key">↑</span> Rotation</li>
+                                    <li><span class="key">Espace</span> Chute rapide</li>
+                                    <li><span class="key">P</span> Pause</li>
+                                </ul>
+                            </div>
+                            <div class="game-buttons">
+                                <button id="start-button" class="btn btn-primary">Démarrer</button>
+                                <button id="reset-button" class="btn btn-secondary">Réinitialiser</button>
+                            </div>
+                            <div class="game-mode">
+                                <h3>Mode de jeu</h3>
+                                <select id="game-mode" class="game-select">
+                                    <option value="standard">Standard</option>
+                                    <option value="pourrissement">Pourrissement</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu de l'onglet Détail -->
+            <div id="detail" class="tab-content">
+                <div class="tetris-info">
+                    <div class="tetris-about">
+                        <h2>À propos du projet</h2>
+                        <p>Ce jeu Tetris a été initialement développé en Python en utilisant la bibliothèque FLTK. Pour l'intégrer dans ce portfolio web, j'ai adapté le code en JavaScript en conservant toutes les fonctionnalités principales du jeu original.</p>
+                        <p>Le projet original comprend plusieurs modes de jeu, un système de score, et différentes fonctionnalités comme la rotation des pièces, la détection de collision, et la suppression des lignes complètes.</p>
+                        
+                        <h3>Fonctionnalités (Version Web JavaScript)</h3>
+                        <ul>
+                            <li>Plusieurs modes de jeu (Standard, Pourrissement)</li>
+                            <li>Système de score et de niveaux</li>
+                            <li>Augmentation progressive de la difficulté</li>
+                            <li>Prévisualisation de la pièce suivante</li>
+                            <li>Interface utilisateur intuitive</li>
+                        </ul>
+                        
+                        <h3>Technologies utilisées (Version Web)</h3>
+                        <div class="tech-tags">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">HTML5 Canvas</span>
+                            <span class="tech-tag">CSS3</span>
+                        </div>
+                        
+                        <h3>Ce que j'ai appris</h3>
+                        <p>Ce projet m'a permis de développer mes compétences en algorithmique, en gestion d'événements et en conception d'interfaces utilisateur. J'ai également appris à structurer un projet de taille moyenne en utilisant les principes de la programmation orientée objet.</p>
+                        <p>L'adaptation du code Python en JavaScript pour l'intégration web a été un défi supplémentaire qui m'a permis d'approfondir ma compréhension des deux langages et de leurs différences.</p>
+                    </div>
+                    
+                    <div class="tetris-code">
+                        <h2>Extrait du code (JavaScript)</h2>
+                        <div class="code-container">
+                            <pre><code>
+<span class="code-comment">// Classe principale du jeu Tetris</span>
+<span class="code-keyword">class</span> <span class="code-class">Tetris</span> {
+    <span class="code-keyword">constructor</span>(canvas, nextPieceCanvas) {
+        <span class="code-property">this.canvas</span> = canvas;
+        <span class="code-property">this.ctx</span> = canvas.getContext(<span class="code-string">'2d'</span>);
+        <span class="code-property">this.nextCanvas</span> = nextPieceCanvas;
+        <span class="code-property">this.nextCtx</span> = nextPieceCanvas.getContext(<span class="code-string">'2d'</span>);
+        // ... (suite du constructeur)
+    }
+    
+    <span class="code-function">start</span>() {
+        // ... (logique de démarrage)
+    }
+    
+    <span class="code-function">update</span>() {
+        // ... (boucle de jeu)
+    }
+    
+    // ... (Autres méthodes)
+}
+                            </code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr style="margin: 40px 0;">
+                
+                <section class="fltk-version">
+                    <h2 class="fltk-heading">🐍 Version Python – Projet Final Complet (Fltk)</h2>
+                    <p class="fltk-paragraph">Ce projet a été reconstruit avec Python en utilisant la bibliothèque <strong>Fltk</strong>. Il propose une version complète et avancée du jeu Tetris avec plusieurs fonctionnalités.</p>
+                  
+                    <h3>Objectifs de la version Python :</h3>
+                    <ul class="fltk-list">
+                      <li>✅ Menu interactif avec 4 modes : Standard, Polyominos, Pourrissement, IA</li>
+                      <li>💾 Système de sauvegarde/reprise</li>
+                      <li>🤖 IA qui joue automatiquement</li>
+                      <li>📄 Lecture des polyominos personnalisés</li>
+                      <li>🖥️ Interface graphique responsive avec la bibliothèque fltk.py</li>
+                    </ul>
+                  
+                    <h3>Aperçu du menu du jeu (Version Python) :</h3>
+                    <img src="image.png" alt="Menu du jeu Tetris Python" style="max-width: 100%; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    
+                    <h3>Vidéos Démonstration (Version Python) :</h3>
+                    <div style="display: flex; flex-direction: column; gap: 30px; margin-bottom: 30px;">
+                        <div>
+                            <h4>Démonstration du jeu :</h4>
+                            <video controls style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                                <source src="tetris_demo.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture vidéo.
+                            </video>
+                        </div>
+                        <div>
+                            <h4>Présentation du projet :</h4>
+                            <video controls style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                                <source src="Design sans titre (1).mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture vidéo.
+                            </video>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 1.5rem;">📥 Fichiers à télécharger (Version Python) :</h3>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 10px;"><a href="tetris_final.py" download class="btn btn-secondary"><i class="fas fa-download"></i> Code principal (tetris_final.py)</a></li>
+                        <li style="margin-bottom: 10px;"><a href="fltk.py" download class="btn btn-secondary"><i class="fas fa-download"></i> Bibliothèque fltk.py</a></li>
+                        <li style="margin-bottom: 10px;"><a href="polyominos.txt" download class="btn btn-secondary"><i class="fas fa-download"></i> Fichier polyominos.txt</a></li>
+                        <!-- Vous pouvez ajouter un lien vers le PDF si vous l'avez -->
+                        <!-- <li style="margin-bottom: 10px;"><a href="Projet_tetris.pdf" download class="btn btn-secondary"><i class="fas fa-download"></i> Explication du projet (PDF)</a></li> -->
+                    </ul>
+                </section>
+            </div>
+            
+            <div class="back-to-portfolio" style="margin-top: 40px;">
+                <a href="../../index.html#projets" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour au portfolio</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">JO</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 Jordan Oshoffa. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../index.html#accueil">Accueil</a>
+                    <a href="../../index.html#a-propos">À Propos</a>
+                    <a href="../../index.html#competences">Compétences</a>
+                    <a href="../../index.html#projets">Projets</a>
+                    <a href="../../index.html#formation">Formation</a>
+                    <a href="../../index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        // Initialisation pour afficher le premier onglet (Jouer)
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('jouer').style.display = 'block';
+        });
+    </script>
+    <script src="../../js/script.js"></script>
+    <script src="tetris.js"></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-Jeux Python - Jordan Oshoffa</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="mini-jeux.css">
+    <link rel="stylesheet" href="mini-jeux-enhanced.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div class="preloader">
+        <div class="loader">
+            <span class="loader-text">LOADING</span>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Curseur personnalisé -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar scrolled">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-text">JO</span>
+                <div class="logo-dot"></div>
+            </div>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#accueil" class="nav-link">Accueil</a></li>
+                <li class="nav-item"><a href="../../index.html#projets" class="nav-link active">Projets</a></li>
+                <li class="nav-item"><a href="../../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section Mini-Jeux -->
+    <section class="mini-jeux-section">
+        <div class="container">
+            <div class="mini-jeux-header">
+                <h1>Mini-Jeux Python</h1>
+                <p class="mini-jeux-description">Une collection de jeux développés en Python avec Tkinter</p>
+            </div>
+            
+            <div class="mini-jeux-intro">
+                <p>Dans le cadre de ma formation en BUT Informatique, j'ai développé plusieurs mini-jeux en Python utilisant la bibliothèque Tkinter pour l'interface graphique. Ces projets m'ont permis d'approfondir mes connaissances en programmation orientée objet, en gestion d'événements et en conception d'interfaces utilisateur.</p>
+            </div>
+
+            <!-- Color Lines -->
+            <div class="game-container">
+                <div class="game-header">
+                    <h2>Color Lines</h2>
+                </div>
+                <div class="game-content">
+                    <div class="game-image">
+                        <img src="../../images/projects/colorlines_nouvelle_image.png" alt="Color Lines" onerror="this.src='../../images/projects/placeholder.jpg'">
+                    </div>
+                    <div class="game-description">
+                        <h3>Principe du jeu</h3>
+                        <p>Color Lines est un jeu de réflexion où le joueur doit aligner des billes de même couleur pour les faire disparaître et marquer des points. À chaque tour, de nouvelles billes apparaissent aléatoirement sur le plateau. Le jeu se termine lorsque le plateau est rempli.</p>
+                        
+                        <h3>Fonctionnalités</h3>
+                        <ul>
+                            <li>Plateau de jeu dynamique</li>
+                            <li>Algorithme de recherche de chemin pour déplacer les billes</li>
+                            <li>Détection automatique des alignements</li>
+                            <li>Système de score</li>
+                            <li>Interface graphique intuitive avec Tkinter</li>
+                        </ul>
+                        
+                        <h3>Aspects techniques</h3>
+                        <p>Ce jeu utilise une structure de données en grille pour représenter le plateau, et implémente un algorithme de recherche de chemin (pathfinding) pour déterminer si un déplacement est possible. La détection des alignements est réalisée par une analyse des lignes, colonnes et diagonales après chaque mouvement.</p>
+                        
+                        <div class="game-buttons">
+                            <a href="jeux/colorlines.py" download class="btn btn-primary">Télécharger le code</a>
+                            <a href="colorlines.html" class="btn btn-secondary">Voir le jeu</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-preview" id="colorlines-code">
+                    <h3>Extrait du code</h3>
+                    <pre><code>
+# Fonction pour vérifier les alignements de billes
+def verifier_alignements(self):
+    """Vérifie s'il y a des alignements de 5 billes ou plus de même couleur
+    et les supprime du plateau en ajoutant des points au score"""
+    alignements_trouves = False
+    
+    # Vérification des lignes
+    for i in range(self.taille):
+        j = 0
+        while j < self.taille:
+            if self.plateau[i][j] != 0:  # Si une bille est présente
+                couleur = self.plateau[i][j]
+                debut = j
+                # Compter combien de billes de même couleur sont alignées
+                while j < self.taille and self.plateau[i][j] == couleur:
+                    j += 1
+                longueur = j - debut
+                if longueur >= 5:  # Si 5 billes ou plus sont alignées
+                    alignements_trouves = True
+                    # Supprimer les billes alignées
+                    for k in range(debut, j):
+                        self.plateau[i][k] = 0
+                    # Ajouter des points au score
+                    self.score += longueur * 2
+            else:
+                j += 1
+                
+    # Vérifications similaires pour les colonnes et diagonales...
+    
+    return alignements_trouves
+                    </code></pre>
+                </div>
+            </div>
+
+            <!-- Reversi -->
+            <div class="game-container">
+                <div class="game-header">
+                    <h2>Reversi</h2>
+                </div>
+                <div class="game-content">
+                    <div class="game-image">
+                        <img src="../../images/projects/reversi_nouvelle_image.png" alt="Reversi" onerror="this.src=\'../../images/projects/placeholder.jpg\'">                   </div>
+                    <div class="game-description">
+                        <h3>Principe du jeu</h3>
+                        <p>Reversi (ou Othello) est un jeu de plateau à deux joueurs où l'objectif est d'avoir plus de pions de sa couleur que l'adversaire à la fin de la partie. À chaque tour, un joueur place un pion qui capture les pions adverses situés entre ce nouveau pion et un autre pion de sa couleur.</p>
+                        
+                        <h3>Fonctionnalités</h3>
+                        <ul>
+                            <li>Plateau de jeu 8x8</li>
+                            <li>Mode deux joueurs</li>
+                            <li>Indication des coups possibles</li>
+                            <li>Comptage automatique des pions</li>
+                            <li>Détection de fin de partie</li>
+                        </ul>
+                        
+                        <h3>Aspects techniques</h3>
+                        <p>L'implémentation utilise une approche orientée objet avec une classe principale gérant l'état du jeu et l'interface graphique. L'algorithme de capture des pions parcourt les huit directions possibles à partir du pion placé pour identifier les pions à retourner.</p>
+                        
+                        <div class="game-buttons">
+                            <a href="jeux/reversi.py" download class="btn btn-primary">Télécharger le code</a>
+                            <a href="reversi.html" class="btn btn-secondary">Voir le jeu</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-preview" id="reversi-code">
+                    <h3>Extrait du code</h3>
+                    <pre><code>
+# Fonction pour vérifier si un coup est valide
+def coup_valide(self, ligne, colonne, joueur):
+    """Vérifie si un coup est valide pour le joueur actuel"""
+    if self.plateau[ligne][colonne] != 0:
+        return False
+        
+    # Directions: haut, haut-droite, droite, bas-droite, bas, bas-gauche, gauche, haut-gauche
+    directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
+    
+    adversaire = 3 - joueur  # Si joueur = 1, adversaire = 2 et vice versa
+    pions_captures = []
+    
+    for dx, dy in directions:
+        x, y = ligne + dx, colonne + dy
+        pions_a_capturer = []
+        
+        # Parcourir la direction tant qu'on trouve des pions adverses
+        while 0 <= x < 8 and 0 <= y < 8 and self.plateau[x][y] == adversaire:
+            pions_a_capturer.append((x, y))
+            x += dx
+            y += dy
+            
+        # Vérifier si on a trouvé un pion du joueur actuel après les pions adverses
+        if pions_a_capturer and 0 <= x < 8 and 0 <= y < 8 and self.plateau[x][y] == joueur:
+            pions_captures.extend(pions_a_capturer)
+            
+    return len(pions_captures) > 0
+                    </code></pre>
+                </div>
+            </div>
+
+            <!-- Klickety -->
+            <div class="game-container">
+                <div class="game-header">
+                    <h2>Klickety</h2>
+                </div>
+                <div class="game-content">
+                    <div class="game-image">
+                       <img src="../../images/projects/klickety_nouvelle_image.png" alt="Klickety" onerror="this.src=\'../../images/projects/placeholder.jpg\'">                    </div>
+                    <div class="game-description">
+                        <h3>Principe du jeu</h3>
+                        <p>Klickety est un jeu de puzzle où le joueur doit éliminer des groupes de blocs de même couleur. Lorsqu'un groupe est éliminé, les blocs au-dessus tombent pour remplir les espaces vides. L'objectif est de vider le plateau ou d'obtenir le score le plus élevé possible.</p>
+                        
+                        <h3>Fonctionnalités</h3>
+                        <ul>
+                            <li>Grille de jeu colorée</li>
+                            <li>Détection des groupes de blocs adjacents</li>
+                            <li>Animation de chute des blocs</li>
+                            <li>Système de score basé sur la taille des groupes éliminés</li>
+                            <li>Plusieurs niveaux de difficulté</li>
+                        </ul>
+                        
+                        <h3>Aspects techniques</h3>
+                        <p>Ce jeu utilise un algorithme de recherche en profondeur (DFS) pour identifier les groupes de blocs connectés de même couleur. La gestion de la gravité est implémentée pour faire tomber les blocs après chaque élimination, créant ainsi de nouvelles possibilités de combinaisons.</p>
+                        
+                        <div class="game-buttons">
+                            <a href="jeux/klickety.py" download class="btn btn-primary">Télécharger le code</a>
+                            <a href="klickety.html" class="btn btn-secondary">Voir le jeu</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-preview" id="klickety-code">
+                    <h3>Extrait du code</h3>
+                    <pre><code>
+# Fonction pour trouver les blocs connectés de même couleur
+def trouver_groupe(self, ligne, colonne):
+    """Trouve tous les blocs connectés de même couleur à partir d'une position donnée"""
+    if ligne < 0 or ligne >= self.hauteur or colonne < 0 or colonne >= self.largeur:
+        return []
+        
+    couleur = self.grille[ligne][colonne]
+    if couleur == 0:  # Case vide
+        return []
+        
+    # Utilisation d'un algorithme de parcours en profondeur (DFS)
+    groupe = []
+    a_visiter = [(ligne, colonne)]
+    visites = set()
+    
+    while a_visiter:
+        l, c = a_visiter.pop()
+        if (l, c) in visites:
+            continue
+            
+        visites.add((l, c))
+        if 0 <= l < self.hauteur and 0 <= c < self.largeur and self.grille[l][c] == couleur:
+            groupe.append((l, c))
+            # Ajouter les voisins à visiter
+            a_visiter.append((l+1, c))
+            a_visiter.append((l-1, c))
+            a_visiter.append((l, c+1))
+            a_visiter.append((l, c-1))
+            
+    return groupe
+                    </code></pre>
+                </div>
+            </div>
+            
+            <div class="back-to-portfolio">
+                <a href="../../index.html#projets" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour au portfolio</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">JO</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 Jordan Oshoffa. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../index.html#accueil">Accueil</a>
+                    <a href="../../index.html#a-propos">À Propos</a>
+                    <a href="../../index.html#competences">Compétences</a>
+                    <a href="../../index.html#projets">Projets</a>
+                    <a href="../../index.html#formation">Formation</a>
+                    <a href="../../index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <a href="#accueil"><i class="fas fa-arrow-up"></i></a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion de l'affichage des extraits de code
+            const viewCodeButtons = document.querySelectorAll('.view-code');
+            viewCodeButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const game = this.getAttribute('data-game');
+                    const codePreview = document.getElementById(`${game}-code`);
+                    
+                    if (codePreview.style.display === 'block') {
+                        codePreview.style.display = 'none';
+                        this.textContent = 'Voir un extrait du code';
+                    } else {
+                        // Cacher tous les extraits de code
+                        document.querySelectorAll('.code-preview').forEach(preview => {
+                            preview.style.display = 'none';
+                        });
+                        
+                        // Réinitialiser tous les boutons
+                        viewCodeButtons.forEach(btn => {
+                            btn.textContent = 'Voir un extrait du code';
+                        });
+                        
+                        // Afficher l'extrait de code sélectionné
+                        codePreview.style.display = 'block';
+                        this.textContent = 'Masquer le code';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

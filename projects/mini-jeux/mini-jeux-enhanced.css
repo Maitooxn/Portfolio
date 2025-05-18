@@ -1,0 +1,358 @@
+/* Styles améliorés pour les mini-jeux */
+
+/* Structure générale */
+.game-container {
+    margin: 3rem 0;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.game-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.game-header {
+    background: linear-gradient(135deg, rgba(245, 170, 66, 0.2), rgba(245, 170, 66, 0.05));
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.game-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    background: linear-gradient(90deg, #f5aa42, #e09932);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+/* Contenu du jeu */
+.game-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+@media (max-width: 768px) {
+    .game-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+.game-image {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.game-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s;
+}
+
+.game-image:hover img {
+    transform: scale(1.05);
+}
+
+/* Description du jeu */
+.game-description {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.game-description h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: #f5aa42;
+}
+
+.game-description h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    color: #e09932;
+}
+
+.game-description p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.game-description ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.game-description li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.game-description li::before {
+    content: "•";
+    color: #f5aa42;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+/* Sections techniques */
+.technical-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.algorithm-showcase {
+    margin-top: 1.5rem;
+}
+
+.algorithm-explanation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .algorithm-explanation {
+        grid-template-columns: 1fr;
+    }
+}
+
+.algorithm-visual {
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+}
+
+.algorithm-diagram {
+    width: 100%;
+    height: auto;
+}
+
+.algorithm-description {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Code snippets */
+.code-snippet {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.code-snippet pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.code-snippet code {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+    color: #f5f5f5;
+}
+
+/* Boutons */
+.game-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #f5aa42, #e09932);
+    color: white;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Tabs pour les sections */
+.game-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.game-tab {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    transition: color 0.3s, border-color 0.3s;
+    border-bottom: 2px solid transparent;
+}
+
+.game-tab.active {
+    color: #f5aa42;
+    border-bottom: 2px solid #f5aa42;
+}
+
+.game-tab:hover:not(.active) {
+    color: rgba(255, 255, 255, 0.9);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.tab-content {
+    display: none;
+    padding: 1.5rem 0;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Sections de jeu */
+.game-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #f5aa42;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Visualisations de gameplay */
+.gameplay-visualization {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.gameplay-demo {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gameplay-caption {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Objectifs du jeu */
+.game-objective {
+    background: rgba(245, 170, 66, 0.1);
+    border-left: 3px solid #f5aa42;
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Concept overview */
+.concept-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Règles du jeu */
+.rules-list {
+    counter-reset: rule-counter;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.rules-list li {
+    counter-increment: rule-counter;
+    margin-bottom: 1rem;
+    padding-left: 2.5rem;
+    position: relative;
+}
+
+.rules-list li::before {
+    content: counter(rule-counter);
+    background: #f5aa42;
+    color: black;
+    font-weight: bold;
+    font-size: 0.9rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Astuces */
+.tips-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.tips-list li {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+    position: relative;
+}
+
+.tips-list li::before {
+    content: "💡";
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+    .game-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .algorithm-explanation {
+        grid-template-columns: 1fr;
+    }
+}

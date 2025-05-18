@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Portail Automatisé - Jordan Oshoffa</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="arduino.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div class="preloader">
+        <div class="loader">
+            <span class="loader-text">LOADING</span>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Curseur personnalisé -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar scrolled">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-text">JO</span>
+                <div class="logo-dot"></div>
+            </div>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#accueil" class="nav-link">Accueil</a></li>
+                <li class="nav-item"><a href="../../index.html#projets" class="nav-link active">Projets</a></li>
+                <li class="nav-item"><a href="../../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section Arduino -->
+    <section class="arduino-section">
+        <div class="container">
+            <div class="arduino-header">
+                <h1>Mini Portail Automatisé</h1>
+                <p class="arduino-description">Un système de portail automatisé développé avec Arduino</p>
+            </div>
+            
+            <div class="arduino-showcase">
+                <div class="arduino-image">
+                    <img src="../../images/projects/arduino-full.jpg" alt="Mini Portail Automatisé">
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <h3>Système embarqué</h3>
+                            <p>Combinaison de capteurs, moteurs et programmation</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="arduino-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Contrôle intelligent</h3>
+                            <p>Système de détection de présence et d'ouverture/fermeture automatique</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Mécanisme précis</h3>
+                            <p>Servomoteurs calibrés pour un mouvement fluide et contrôlé</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Sécurité intégrée</h3>
+                            <p>Système anti-collision et détection d'obstacles</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Indicateurs visuels</h3>
+                            <p>LEDs d'état pour signaler les différentes phases d'opération</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arduino-details">
+                <div class="arduino-about">
+                    <h2>À propos du projet</h2>
+                    <p>Ce projet de mini portail automatisé combine électronique et programmation pour créer un système fonctionnel et réactif. J'ai conçu et réalisé ce projet en utilisant la plateforme Arduino, des capteurs de proximité et des servomoteurs.</p>
+                    <p>Le système est capable de détecter la présence d'un objet ou d'une personne à proximité du portail, d'ouvrir automatiquement le portail, puis de le refermer après un délai prédéfini ou lorsque l'objet ou la personne s'est éloigné.</p>
+                    
+                    <h3>Fonctionnalités</h3>
+                    <ul>
+                        <li>Détection de présence par capteurs ultrasoniques</li>
+                        <li>Contrôle précis des servomoteurs pour l'ouverture et la fermeture</li>
+                        <li>Système de sécurité anti-collision</li>
+                        <li>Interface de contrôle manuel et automatique</li>
+                        <li>Indicateurs lumineux d'état (LED)</li>
+                        <li>Mode économie d'énergie</li>
+                    </ul>
+                    
+                    <h3>Technologies utilisées</h3>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Arduino</span>
+                        <span class="tech-tag">C/C++</span>
+                        <span class="tech-tag">Capteurs ultrasoniques</span>
+                        <span class="tech-tag">Servomoteurs</span>
+                        <span class="tech-tag">Électronique</span>
+                    </div>
+                    
+                    <h3>Ce que j'ai appris</h3>
+                    <p>Ce projet m'a permis d'acquérir des compétences en électronique, en programmation de systèmes embarqués et en conception de circuits. J'ai également appris à résoudre des problèmes pratiques liés à l'automatisation et à la gestion des entrées/sorties.</p>
+                    <p>J'ai particulièrement développé ma compréhension des principes de mécanique, d'électronique et de programmation, ainsi que leur intégration dans un système fonctionnel.</p>
+                </div>
+                
+                <div class="arduino-code">
+                    <h2>Extrait du code</h2>
+                    <div class="code-container">
+                        <pre><code>
+<span class="code-comment">// Mini Portail Automatisé avec Arduino</span>
+<span class="code-comment">// Jordan Oshoffa</span>
+
+<span class="code-keyword">#include</span> <span class="code-string">&lt;Servo.h&gt;</span>
+<span class="code-keyword">#define</span> TRIGGER_PIN 7
+<span class="code-keyword">#define</span> ECHO_PIN 8
+<span class="code-keyword">#define</span> SERVO_PIN 9
+<span class="code-keyword">#define</span> LED_ROUGE 4
+<span class="code-keyword">#define</span> LED_VERTE 5
+
+Servo <span class="code-variable">portailServo</span>;  <span class="code-comment">// Création de l'objet servo</span>
+
+<span class="code-keyword">const</span> <span class="code-keyword">int</span> <span class="code-variable">ANGLE_FERME</span> = 0;
+<span class="code-keyword">const</span> <span class="code-keyword">int</span> <span class="code-variable">ANGLE_OUVERT</span> = 90;
+<span class="code-keyword">const</span> <span class="code-keyword">int</span> <span class="code-variable">DISTANCE_DETECTION</span> = 20;  <span class="code-comment">// Distance en cm</span>
+<span class="code-keyword">const</span> <span class="code-keyword">int</span> <span class="code-variable">DELAI_FERMETURE</span> = 5000;  <span class="code-comment">// Délai en ms</span>
+
+<span class="code-keyword">bool</span> <span class="code-variable">portailOuvert</span> = <span class="code-keyword">false</span>;
+<span class="code-keyword">unsigned</span> <span class="code-keyword">long</span> <span class="code-variable">tempsOuverture</span> = 0;
+
+<span class="code-keyword">void</span> <span class="code-function">setup</span>() {
+  Serial.<span class="code-function">begin</span>(9600);
+  
+  <span class="code-comment">// Configuration des broches</span>
+  <span class="code-function">pinMode</span>(TRIGGER_PIN, OUTPUT);
+  <span class="code-function">pinMode</span>(ECHO_PIN, INPUT);
+  <span class="code-function">pinMode</span>(LED_ROUGE, OUTPUT);
+  <span class="code-function">pinMode</span>(LED_VERTE, OUTPUT);
+  
+  <span class="code-comment">// Initialisation du servo</span>
+  portailServo.<span class="code-function">attach</span>(SERVO_PIN);
+  portailServo.<span class="code-function">write</span>(ANGLE_FERME);
+  
+  <span class="code-comment">// État initial des LEDs</span>
+  <span class="code-function">digitalWrite</span>(LED_ROUGE, HIGH);
+  <span class="code-function">digitalWrite</span>(LED_VERTE, LOW);
+  
+  Serial.<span class="code-function">println</span>(<span class="code-string">"Système de portail automatisé initialisé"</span>);
+}
+
+<span class="code-keyword">void</span> <span class="code-function">loop</span>() {
+  <span class="code-comment">// Mesure de la distance</span>
+  <span class="code-keyword">int</span> <span class="code-variable">distance</span> = <span class="code-function">mesurerDistance</span>();
+  
+  <span class="code-comment">// Affichage de la distance pour le débogage</span>
+  Serial.<span class="code-function">print</span>(<span class="code-string">"Distance: "</span>);
+  Serial.<span class="code-function">print</span>(distance);
+  Serial.<span class="code-function">println</span>(<span class="code-string">" cm"</span>);
+  
+  <span class="code-comment">// Gestion du portail</span>
+  <span class="code-keyword">if</span> (!<span class="code-variable">portailOuvert</span> && distance <= DISTANCE_DETECTION) {
+    <span class="code-comment">// Ouverture du portail</span>
+    <span class="code-function">ouvrirPortail</span>();
+  } 
+  <span class="code-keyword">else</span> <span class="code-keyword">if</span> (<span class="code-variable">portailOuvert</span>) {
+    <span class="code-comment">// Vérification du délai de fermeture</span>
+    <span class="code-keyword">if</span> (millis() - <span class="code-variable">tempsOuverture</span> > DELAI_FERMETURE && distance > DISTANCE_DETECTION) {
+      <span class="code-comment">// Fermeture du portail</span>
+      <span class="code-function">fermerPortail</span>();
+    }
+  }
+  
+  <span class="code-function">delay</span>(100);  <span class="code-comment">// Petit délai pour stabiliser les lectures</span>
+}
+
+<span class="code-keyword">int</span> <span class="code-function">mesurerDistance</span>() {
+  <span class="code-comment">// Envoi d'une impulsion ultrasonique</span>
+  <span class="code-function">digitalWrite</span>(TRIGGER_PIN, LOW);
+  <span class="code-function">delayMicroseconds</span>(2);
+  <span class="code-function">digitalWrite</span>(TRIGGER_PIN, HIGH);
+  <span class="code-function">delayMicroseconds</span>(10);
+  <span class="code-function">digitalWrite</span>(TRIGGER_PIN, LOW);
+  
+  <span class="code-comment">// Mesure du temps de retour de l'écho</span>
+  <span class="code-keyword">long</span> <span class="code-variable">duree</span> = <span class="code-function">pulseIn</span>(ECHO_PIN, HIGH);
+  
+  <span class="code-comment">// Calcul de la distance en cm</span>
+  <span class="code-keyword">int</span> <span class="code-variable">distance</span> = <span class="code-variable">duree</span> * 0.034 / 2;
+  
+  <span class="code-keyword">return</span> <span class="code-variable">distance</span>;
+}
+
+<span class="code-keyword">void</span> <span class="code-function">ouvrirPortail</span>() {
+  Serial.<span class="code-function">println</span>(<span class="code-string">"Ouverture du portail..."</span>);
+  
+  <span class="code-comment">// Animation d'ouverture progressive</span>
+  <span class="code-keyword">for</span> (<span class="code-keyword">int</span> <span class="code-variable">angle</span> = ANGLE_FERME; <span class="code-variable">angle</span> <= ANGLE_OUVERT; <span class="code-variable">angle</span> += 5) {
+    portailServo.<span class="code-function">write</span>(<span class="code-variable">angle</span>);
+    <span class="code-function">delay</span>(50);
+  }
+  
+  <span class="code-comment">// Mise à jour des états</span>
+  <span class="code-variable">portailOuvert</span> = <span class="code-keyword">true</span>;
+  <span class="code-variable">tempsOuverture</span> = millis();
+  
+  <span class="code-comment">// Mise à jour des LEDs</span>
+  <span class="code-function">digitalWrite</span>(LED_ROUGE, LOW);
+  <span class="code-function">digitalWrite</span>(LED_VERTE, HIGH);
+  
+  Serial.<span class="code-function">println</span>(<span class="code-string">"Portail ouvert"</span>);
+}
+
+<span class="code-keyword">void</span> <span class="code-function">fermerPortail</span>() {
+  Serial.<span class="code-function">println</span>(<span class="code-string">"Fermeture du portail..."</span>);
+  
+  <span class="code-comment">// Animation de fermeture progressive</span>
+  <span class="code-keyword">for</span> (<span class="code-keyword">int</span> <span class="code-variable">angle</span> = ANGLE_OUVERT; <span class="code-variable">angle</span> >= ANGLE_FERME; <span class="code-variable">angle</span> -= 5) {
+    portailServo.<span class="code-function">write</span>(<span class="code-variable">angle</span>);
+    <span class="code-function">delay</span>(50);
+    
+    <span class="code-comment">// Vérification de sécurité pendant la fermeture</span>
+    <span class="code-keyword">if</span> (<span class="code-function">mesurerDistance</span>() <= DISTANCE_DETECTION) {
+      Serial.<span class="code-function">println</span>(<span class="code-string">"Obstacle détecté! Réouverture du portail."</span>);
+      <span class="code-function">ouvrirPortail</span>();
+      <span class="code-keyword">return</span>;
+    }
+  }
+  
+  <span class="code-comment">// Mise à jour des états</span>
+  <span class="code-variable">portailOuvert</span> = <span class="code-keyword">false</span>;
+  
+  <span class="code-comment">// Mise à jour des LEDs</span>
+  <span class="code-function">digitalWrite</span>(LED_ROUGE, HIGH);
+  <span class="code-function">digitalWrite</span>(LED_VERTE, LOW);
+  
+  Serial.<span class="code-function">println</span>(<span class="code-string">"Portail fermé"</span>);
+}
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arduino-schema">
+                <h2>Schéma du circuit</h2>
+                <div class="schema-container">
+                    <div class="schema-image">
+                        <img src="../../images/projects/arduino-schema.jpg" alt="Schéma du circuit">
+                    </div>
+                    <div class="schema-description">
+                        <h3>Composants utilisés</h3>
+                        <ul>
+                            <li>1 × Arduino Uno</li>
+                            <li>1 × Capteur ultrasonique HC-SR04</li>
+                            <li>1 × Servomoteur SG90</li>
+                            <li>2 × LEDs (rouge et verte)</li>
+                            <li>2 × Résistances 220Ω</li>
+                            <li>1 × Breadboard</li>
+                            <li>Fils de connexion</li>
+                        </ul>
+                        
+                        <h3>Connexions</h3>
+                        <p>Le capteur ultrasonique est connecté aux broches 7 (TRIGGER) et 8 (ECHO). Le servomoteur est connecté à la broche 9. Les LEDs sont connectées aux broches 4 (rouge) et 5 (verte) via des résistances de 220Ω.</p>
+                        
+                        <p>Le circuit est alimenté par le port USB de l'Arduino, mais peut également être alimenté par une source externe de 9V pour une utilisation autonome.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arduino-gallery">
+                <h2>Galerie</h2>
+                <div class="gallery-container">
+                    <div class="gallery-item">
+                        <img src="../../images/projects/arduino-gallery1.jpg" alt="Vue du portail">
+                        <div class="gallery-caption">Vue d'ensemble du mini portail</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../../images/projects/arduino-gallery2.jpg" alt="Circuit électronique">
+                        <div class="gallery-caption">Circuit électronique et connexions</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../../images/projects/arduino-gallery3.jpg" alt="Démonstration">
+                        <div class="gallery-caption">Démonstration du fonctionnement</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-to-portfolio">
+                <a href="../../index.html#projets" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Retour au portfolio</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">JO</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 Jordan Oshoffa. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../index.html#accueil">Accueil</a>
+                    <a href="../../index.html#a-propos">À Propos</a>
+                    <a href="../../index.html#competences">Compétences</a>
+                    <a href="../../index.html#projets">Projets</a>
+                    <a href="../../index.html#formation">Formation</a>
+                    <a href="../../index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reversi - JavaScript</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 480px;
+            height: 480px;
+            margin: 20px auto;
+            border: 2px solid #444;
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.3);
+            background-color: #006400; /* Vert foncé pour le plateau */
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 480px;
+            margin-top: 10px;
+        }
+        
+        .score-container, .turn-container {
+            background-color: #222;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 255, 0.2);
+        }
+        
+        .disc {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+        .disc.black {
+            background-color: #000;
+            border: 1px solid #444;
+        }
+        
+        .disc.white {
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+        
+        h1 {
+            color: #4d79ff;
+            text-shadow: 0 0 10px rgba(77, 121, 255, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            background-color: #222;
+            padding: 15px;
+            border-radius: 5px;
+            max-width: 480px;
+            box-shadow: 0 0 10px rgba(0, 0, 255, 0.2);
+        }
+        
+        .controls h2 {
+            color: #4d79ff;
+            margin-top: 0;
+        }
+        
+        .controls ul {
+            padding-left: 20px;
+        }
+        
+        .controls li {
+            margin-bottom: 5px;
+        }
+        
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            display: none;
+        }
+        
+        .game-over h2 {
+            color: #ff4d4d;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .game-over button {
+            background-color: #4d79ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .game-over button:hover {
+            background-color: #3366ff;
+        }
+        
+        .btn-restart {
+            background-color: #4d79ff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-restart:hover {
+            background-color: #3366ff;
+        }
+        
+        .difficulty-container {
+            margin-top: 10px;
+        }
+        
+        .difficulty-container label {
+            margin-right: 10px;
+        }
+        
+        .difficulty-container select {
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border: 1px solid #555;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reversi</h1>
+    
+    <div class="game-container">
+        <canvas id="reversi" width="480" height="480"></canvas>
+        <div id="game-over" class="game-over">
+            <h2>Partie terminée</h2>
+            <p>Résultat: <span id="result">Match nul</span></p>
+            <p>Noir: <span id="final-black">0</span> - Blanc: <span id="final-white">0</span></p>
+            <button id="restart-game-over">Nouvelle partie</button>
+        </div>
+    </div>
+    
+    <div class="game-info">
+        <div class="score-container">
+            <p><span class="disc black"></span> Noir: <span id="black-score">2</span></p>
+            <p><span class="disc white"></span> Blanc: <span id="white-score">2</span></p>
+        </div>
+        <div class="turn-container">
+            <p>Tour: <span id="current-turn"><span class="disc black"></span> Noir</span></p>
+        </div>
+    </div>
+    
+    <div class="difficulty-container">
+        <label for="difficulty">Difficulté de l'IA:</label>
+        <select id="difficulty">
+            <option value="1">Facile</option>
+            <option value="2" selected>Moyen</option>
+            <option value="3">Difficile</option>
+        </select>
+    </div>
+    
+    <button id="restart" class="btn-restart">Nouvelle partie</button>
+    
+    <div class="controls">
+        <h2>Comment jouer</h2>
+        <ul>
+            <li>Cliquez sur une case pour placer un pion</li>
+            <li>Vous devez encadrer au moins un pion adverse pour jouer</li>
+            <li>Les pions encadrés sont retournés et deviennent vos pions</li>
+            <li>Si vous ne pouvez pas jouer, le tour passe à l'adversaire</li>
+            <li>La partie se termine quand le plateau est plein ou quand aucun joueur ne peut jouer</li>
+            <li>Le joueur avec le plus de pions gagne</li>
+        </ul>
+    </div>
+
+    <script>
+        // Configuration du jeu
+        const BOARD_SIZE = 8;
+        const CELL_SIZE = 60;
+        const DISC_RADIUS = 25;
+        
+        // Constantes pour les joueurs
+        const EMPTY = 0;
+        const BLACK = 1;
+        const WHITE = 2;
+        
+        // Éléments du DOM
+        const canvas = document.getElementById('reversi');
+        const ctx = canvas.getContext('2d');
+        const blackScoreElement = document.getElementById('black-score');
+        const whiteScoreElement = document.getElementById('white-score');
+        const currentTurnElement = document.getElementById('current-turn');
+        const gameOverElement = document.getElementById('game-over');
+        const resultElement = document.getElementById('result');
+        const finalBlackElement = document.getElementById('final-black');
+        const finalWhiteElement = document.getElementById('final-white');
+        const restartButton = document.getElementById('restart');
+        const restartGameOverButton = document.getElementById('restart-game-over');
+        const difficultySelect = document.getElementById('difficulty');
+        
+        // Variables du jeu
+        let board = [];
+        let currentPlayer = BLACK;
+        let gameOver = false;
+        let aiThinking = false;
+        
+        // Initialisation du plateau
+        function initBoard() {
+            board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(EMPTY));
+            
+            // Position initiale des pions
+            const mid = BOARD_SIZE / 2;
+            board[mid - 1][mid - 1] = WHITE;
+            board[mid - 1][mid] = BLACK;
+            board[mid][mid - 1] = BLACK;
+            board[mid][mid] = WHITE;
+        }
+        
+        // Dessiner le plateau
+        function drawBoard() {
+            // Effacer le canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Dessiner le fond vert
+            ctx.fillStyle = '#006400';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Dessiner la grille
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i <= BOARD_SIZE; i++) {
+                // Lignes horizontales
+                ctx.beginPath();
+                ctx.moveTo(0, i * CELL_SIZE);
+                ctx.lineTo(BOARD_SIZE * CELL_SIZE, i * CELL_SIZE);
+                ctx.stroke();
+                
+                // Lignes verticales
+                ctx.beginPath();
+                ctx.moveTo(i * CELL_SIZE, 0);
+                ctx.lineTo(i * CELL_SIZE, BOARD_SIZE * CELL_SIZE);
+                ctx.stroke();
+            }
+            
+            // Dessiner les points de repère
+            const dots = [2, 6];
+            ctx.fillStyle = '#000';
+            for (const x of dots) {
+                for (const y of dots) {
+                    ctx.beginPath();
+                    ctx.arc(x * CELL_SIZE, y * CELL_SIZE, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            // Dessiner les pions
+            for (let y = 0; y < BOARD_SIZE; y++) {
+                for (let x = 0; x < BOARD_SIZE; x++) {
+                    if (board[y][x] !== EMPTY) {
+                        drawDisc(x, y, board[y][x]);
+                    }
+                }
+            }
+            
+            // Dessiner les coups possibles
+            if (!gameOver && !aiThinking) {
+                const validMoves = getValidMoves(currentPlayer);
+                
+                ctx.fillStyle = 'rgba(0, 255, 0, 0.3)';
+                for (const move of validMoves) {
+                    ctx.beginPath();
+                    ctx.arc(
+                        move.x * CELL_SIZE + CELL_SIZE / 2,
+                        move.y * CELL_SIZE + CELL_SIZE / 2,
+                        10,
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fill();
+                }
+            }
+        }
+        
+        // Dessiner un pion
+        function drawDisc(x, y, player) {
+            const centerX = x * CELL_SIZE + CELL_SIZE / 2;
+            const centerY = y * CELL_SIZE + CELL_SIZE / 2;
+            
+            // Ombre
+            ctx.beginPath();
+            ctx.arc(centerX + 2, centerY + 2, DISC_RADIUS, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fill();
+            
+            // Pion
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, DISC_RADIUS, 0, Math.PI * 2);
+            ctx.fillStyle = player === BLACK ? '#000' : '#fff';
+            ctx.fill();
+            ctx.strokeStyle = player === BLACK ? '#444' : '#ccc';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            
+            // Reflet (effet 3D)
+            const gradient = ctx.createRadialGradient(
+                centerX - DISC_RADIUS / 3,
+                centerY - DISC_RADIUS / 3,
+                DISC_RADIUS / 10,
+                centerX,
+                centerY,
+                DISC_RADIUS
+            );
+            
+            if (player === BLACK) {
+                gradient.addColorStop(0, 'rgba(100, 100, 100, 0.8)');
+                gradient.addColorStop(0.5, 'rgba(50, 50, 50, 0.2)');
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            } else {
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+                gradient.addColorStop(0.5, 'rgba(200, 200, 200, 0.2)');
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            }
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, DISC_RADIUS, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+        }
+        
+        // Mettre à jour l'affichage du score
+        function updateScore() {
+            let blackCount = 0;
+            let whiteCount = 0;
+            
+            for (let y = 0; y < BOARD_SIZE; y++) {
+                for (let x = 0; x < BOARD_SIZE; x++) {
+                    if (board[y][x] === BLACK) {
+                        blackCount++;
+                    } else if (board[y][x] === WHITE) {
+                        whiteCount++;
+                    }
+                }
+            }
+            
+            blackScoreElement.textContent = blackCount;
+            whiteScoreElement.textContent = whiteCount;
+            
+            return { black: blackCount, white: whiteCount };
+        }
+        
+        // Mettre à jour l'affichage du tour actuel
+        function updateTurn() {
+            if (currentPlayer === BLACK) {
+                currentTurnElement.innerHTML = '<span class="disc black"></span> Noir';
+            } else {
+                currentTurnElement.innerHTML = '<span class="disc white"></span> Blanc';
+            }
+        }
+        
+        // Obtenir les coups valides pour un joueur
+        function getValidMoves(player) {
+            const validMoves = [];
+            
+            for (let y = 0; y < BOARD_SIZE; y++) {
+                for (let x = 0; x < BOARD_SIZE; x++) {
+                    if (board[y][x] === EMPTY && isValidMove(x, y, player)) {
+                        validMoves.push({ x, y });
+                    }
+                }
+            }
+            
+            return validMoves;
+        }
+        
+        // Vérifier si un coup est valide
+        function isValidMove(x, y, player) {
+            if (board[y][x] !== EMPTY) {
+                return false;
+            }
+            
+            const opponent = player === BLACK ? WHITE : BLACK;
+            const directions = [
+                { dx: 0, dy: -1 },  // Haut
+                { dx: 1, dy: -1 },  // Haut-droite
+                { dx: 1, dy: 0 },   // Droite
+                { dx: 1, dy: 1 },   // Bas-droite
+                { dx: 0, dy: 1 },   // Bas
+                { dx: -1, dy: 1 },  // Bas-gauche
+                { dx: -1, dy: 0 },  // Gauche
+                { dx: -1, dy: -1 }  // Haut-gauche
+            ];
+            
+            for (const dir of directions) {
+                let nx = x + dir.dx;
+                let ny = y + dir.dy;
+                
+                // Vérifier si la case adjacente contient un pion adverse
+                if (nx >= 0 && nx < BOARD_SIZE && ny >= 0 && ny < BOARD_SIZE && board[ny][nx] === opponent) {
+                    nx += dir.dx;
+                    ny += dir.dy;
+                    
+                    // Continuer dans cette direction
+                    while (nx >= 0 && nx < BOARD_SIZE && ny >= 0 && ny < BOARD_SIZE) {
+                        if (board[ny][nx] === EMPTY) {
+                            break;
+                        }
+                        
+                        if (board[ny][nx] === player) {
+                            return true; // Coup valide
+                        }
+                        
+                        nx += dir.dx;
+                        ny += dir.dy;
+                    }
+                }
+            }
+            
+            return false;
+        }
+        
+        // Jouer un coup
+        function makeMove(x, y, player) {
+            if (!isValidMove(x, y, player)) {
+                return false;
+            }
+            
+            board[y][x] = player;
+            
+            const opponent = player === BLACK ? WHITE : BLACK;
+            const directions = [
+                { dx: 0, dy: -1 },  // Haut
+                { dx: 1, dy: -1 },  // Haut-droite
+                { dx: 1, dy: 0 },   // Droite
+                { dx: 1, dy: 1 },   // Bas-droite
+                { dx: 0, dy: 1 },   // Bas
+                { dx: -1, dy: 1 },  // Bas-gauche
+                { dx: -1, dy: 0 },  // Gauche
+                { dx: -1, dy: -1 }  // Haut-gauche
+            ];
+            
+            for (const dir of directions) {
+                let nx = x + dir.dx;
+                let ny = y + dir.dy;
+                
+                // Vérifier si la case adjacente contient un pion adverse
+                if (nx >= 0 && nx < BOARD_SIZE && ny >= 0 && ny < BOARD_SIZE && board[ny][nx] === opponent) {
+                    const discsToFlip = [];
+                    discsToFlip.push({ x: nx, y: ny });
+                    
+                    nx += dir.dx;
+                    ny += dir.dy;
+                    
+                    // Continuer dans cette direction
+                    let foundPlayer = false;
+                    while (nx >= 0 && nx < BOARD_SIZE && ny >= 0 && ny < BOARD_SIZE) {
+                        if (board[ny][nx] === EMPTY) {
+                            break;
+                        }
+                        
+                        if (board[ny][nx] === player) {
+                            foundPlayer = true;
+                            break;
+                        }
+                        
+                        discsToFlip.push({ x: nx, y: ny });
+                        nx += dir.dx;
+                        ny += dir.dy;
+                    }
+                    
+                    // Retourner les pions si nécessaire
+                    if (foundPlayer) {
+                        for (const disc of discsToFlip) {
+                            board[disc.y][disc.x] = player;
+                        }
+                    }
+                }
+            }
+            
+            return true;
+        }
+        
+        // Changer de joueur
+        function switchPlayer() {
+            currentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
+            updateTurn();
+            
+            // Vérifier si le joueur actuel peut jouer
+            if (getValidMoves(currentPlayer).length === 0) {
+                // Si le joueur actuel ne peut pas jouer, vérifier si l'autre joueur peut jouer
+                const otherPlayer = currentPlayer === BLACK ? WHITE : BLACK;
+                if (getValidMoves(otherPlayer).length === 0) {
+                    // Si aucun joueur ne peut jouer, la partie est terminée
+                    endGame();
+                } else {
+                    // Sinon, passer le tour
+                    alert(`${currentPlayer === BLACK ? 'Noir' : 'Blanc'} ne peut pas jouer. Tour passé.`);
+                    switchPlayer();
+                }
+            } else if (currentPlayer === WHITE) {
+                // Tour de l'IA
+                setTimeout(playAI, 500);
+            }
+        }
+        
+        // Jouer un coup de l'IA
+        function playAI() {
+            if (gameOver) return;
+            
+            aiThinking = true;
+            drawBoard();
+            
+            setTimeout(() => {
+                const difficulty = parseInt(difficultySelect.value);
+                const move = getBestMove(difficulty);
+                
+                if (move) {
+                    makeMove(move.x, move.y, WHITE);
+                    updateScore();
+                    aiThinking = false;
+                    drawBoard();
+                    switchPlayer();
+                } else {
+                    aiThinking = false;
+                    switchPlayer();
+                }
+            }, 500);
+        }
+        
+        // Obtenir le meilleur coup pour l'IA
+        function getBestMove(difficulty) {
+            const validMoves = getValidMoves(WHITE);
+            
+            if (validMoves.length === 0) {
+                return null;
+            }
+            
+            if (difficulty === 1) {
+                // Facile: coup aléatoire
+                return validMoves[Math.floor(Math.random() * validMoves.length)];
+            } else if (difficulty === 2) {
+                // Moyen: prendre le coup qui retourne le plus de pions
+                let bestMove = null;
+                let bestScore = -1;
+                
+                for (const move of validMoves) {
+                    // Copier le plateau
+                    const boardCopy = board.map(row => [...row]);
+                    
+                    // Jouer le coup
+                    makeMove(move.x, move.y, WHITE);
+                    
+                    // Calculer le score
+                    const score = countDiscs(WHITE) - countDiscs(BLACK);
+                    
+                    // Restaurer le plateau
+                    board = boardCopy;
+                    
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMove = move;
+                    }
+                }
+                
+                return bestMove;
+            } else {
+                // Difficile: minimax avec profondeur 3
+                let bestMove = null;
+                let bestScore = -Infinity;
+                
+                for (const move of validMoves) {
+                    // Copier le plateau
+                    const boardCopy = board.map(row => [...row]);
+                    
+                    // Jouer le coup
+                    makeMove(move.x, move.y, WHITE);
+                    
+                    // Évaluer le coup avec minimax
+                    const score = minimax(3, false, -Infinity, Infinity);
+                    
+                    // Restaurer le plateau
+                    board = boardCopy;
+                    
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMove = move;
+                    }
+                }
+                
+                return bestMove;
+            }
+        }
+        
+        // Algorithme minimax avec élagage alpha-beta
+        function minimax(depth, isMaximizing, alpha, beta) {
+            if (depth === 0) {
+                return evaluateBoard();
+            }
+            
+            const player = isMaximizing ? WHITE : BLACK;
+            const validMoves = getValidMoves(player);
+            
+            if (validMoves.length === 0) {
+                // Si le joueur ne peut pas jouer, passer au joueur suivant
+                const otherPlayer = player === BLACK ? WHITE : BLACK;
+                if (getValidMoves(otherPlayer).length === 0) {
+                    // Si aucun joueur ne peut jouer, évaluer le plateau
+                    return evaluateBoard();
+                } else {
+                    // Sinon, continuer avec l'autre joueur
+                    return minimax(depth, !isMaximizing, alpha, beta);
+                }
+            }
+            
+            if (isMaximizing) {
+                let maxScore = -Infinity;
+                
+                for (const move of validMoves) {
+                    // Copier le plateau
+                    const boardCopy = board.map(row => [...row]);
+                    
+                    // Jouer le coup
+                    makeMove(move.x, move.y, player);
+                    
+                    // Évaluer le coup
+                    const score = minimax(depth - 1, false, alpha, beta);
+                    
+                    // Restaurer le plateau
+                    board = boardCopy;
+                    
+                    maxScore = Math.max(maxScore, score);
+                    alpha = Math.max(alpha, score);
+                    
+                    if (beta <= alpha) {
+                        break; // Élagage alpha
+                    }
+                }
+                
+                return maxScore;
+            } else {
+                let minScore = Infinity;
+                
+                for (const move of validMoves) {
+                    // Copier le plateau
+                    const boardCopy = board.map(row => [...row]);
+                    
+                    // Jouer le coup
+                    makeMove(move.x, move.y, player);
+                    
+                    // Évaluer le coup
+                    const score = minimax(depth - 1, true, alpha, beta);
+                    
+                    // Restaurer le plateau
+                    board = boardCopy;
+                    
+                    minScore = Math.min(minScore, score);
+                    beta = Math.min(beta, score);
+                    
+                    if (beta <= alpha) {
+                        break; // Élagage beta
+                    }
+                }
+                
+                return minScore;
+            }
+        }
+        
+        // Évaluer le plateau pour l'algorithme minimax
+        function evaluateBoard() {
+            // Compter les pions
+            const whiteCount = countDiscs(WHITE);
+            const blackCount = countDiscs(BLACK);
+            
+            // Valeur des coins (très importants)
+            const corners = [
+                { x: 0, y: 0 },
+                { x: 0, y: BOARD_SIZE - 1 },
+                { x: BOARD_SIZE - 1, y: 0 },
+                { x: BOARD_SIZE - 1, y: BOARD_SIZE - 1 }
+            ];
+            
+            let cornerScore = 0;
+            for (const corner of corners) {
+                if (board[corner.y][corner.x] === WHITE) {
+                    cornerScore += 25;
+                } else if (board[corner.y][corner.x] === BLACK) {
+                    cornerScore -= 25;
+                }
+            }
+            
+            // Mobilité (nombre de coups possibles)
+            const whiteMobility = getValidMoves(WHITE).length;
+            const blackMobility = getValidMoves(BLACK).length;
+            const mobilityScore = whiteMobility - blackMobility;
+            
+            // Score final
+            return (whiteCount - blackCount) + cornerScore + mobilityScore;
+        }
+        
+        // Compter les pions d'un joueur
+        function countDiscs(player) {
+            let count = 0;
+            
+            for (let y = 0; y < BOARD_SIZE; y++) {
+                for (let x = 0; x < BOARD_SIZE; x++) {
+                    if (board[y][x] === player) {
+                        count++;
+                    }
+                }
+            }
+            
+            return count;
+        }
+        
+        // Terminer la partie
+        function endGame() {
+            gameOver = true;
+            
+            const score = updateScore();
+            finalBlackElement.textContent = score.black;
+            finalWhiteElement.textContent = score.white;
+            
+            if (score.black > score.white) {
+                resultElement.textContent = 'Noir gagne!';
+            } else if (score.white > score.black) {
+                resultElement.textContent = 'Blanc gagne!';
+            } else {
+                resultElement.textContent = 'Match nul!';
+            }
+            
+            gameOverElement.style.display = 'flex';
+        }
+        
+        // Gérer les clics sur le canvas
+        function handleCanvasClick(e) {
+            if (gameOver || aiThinking || currentPlayer !== BLACK) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+            const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+            
+            if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) {
+                return;
+            }
+            
+            if (makeMove(x, y, BLACK)) {
+                updateScore();
+                drawBoard();
+                switchPlayer();
+            }
+        }
+        
+        // Réinitialiser le jeu
+        function resetGame() {
+            initBoard();
+            currentPlayer = BLACK;
+            gameOver = false;
+            aiThinking = false;
+            
+            updateScore();
+            updateTurn();
+            drawBoard();
+            
+            gameOverElement.style.display = 'none';
+        }
+        
+        // Initialisation du jeu
+        function init() {
+            // Ajouter les écouteurs d'événements
+            canvas.addEventListener('click', handleCanvasClick);
+            restartButton.addEventListener('click', resetGame);
+            restartGameOverButton.addEventListener('click', resetGame);
+            
+            // Initialiser le jeu
+            resetGame();
+        }
+        
+        // Démarrer le jeu
+        init();
+    </script>
+</body>
+</html>

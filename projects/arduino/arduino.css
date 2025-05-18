@@ -1,0 +1,443 @@
+/* STYLES SPÉCIFIQUES AU PROJET ARDUINO */
+.arduino-section {
+    padding-top: 12rem;
+    background-color: var(--dark-color);
+    min-height: 100vh;
+}
+
+.arduino-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.arduino-header h1 {
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--light-color);
+    position: relative;
+    display: inline-block;
+}
+
+.arduino-header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 3px;
+}
+
+.arduino-description {
+    font-size: 1.8rem;
+    max-width: 700px;
+    margin: 0 auto;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+.arduino-showcase {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    margin: 5rem 0;
+}
+
+.arduino-image {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: var(--shadow-large);
+}
+
+.arduino-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: var(--transition-medium);
+}
+
+.arduino-image:hover img {
+    transform: scale(1.05);
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: 2rem;
+    transform: translateY(100%);
+    transition: var(--transition-medium);
+}
+
+.arduino-image:hover .image-overlay {
+    transform: translateY(0);
+}
+
+.overlay-content h3 {
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--light-color);
+    margin-bottom: 1rem;
+}
+
+.overlay-content p {
+    font-size: 1.6rem;
+    color: var(--text-color);
+}
+
+.arduino-features {
+    flex: 1;
+    min-width: 300px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.feature-item {
+    background-color: rgba(30, 39, 46, 0.7);
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: var(--shadow-medium);
+    transition: var(--transition-medium);
+    border: 1px solid rgba(9, 132, 227, 0.1);
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-large);
+    border-color: rgba(9, 132, 227, 0.3);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+}
+
+.feature-content h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--light-color);
+    margin-bottom: 1rem;
+}
+
+.feature-content p {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+.arduino-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin: 6rem 0;
+}
+
+.arduino-about h2, .arduino-code h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--light-color);
+    position: relative;
+    display: inline-block;
+}
+
+.arduino-about h2::after, .arduino-code h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 3px;
+}
+
+.arduino-about p {
+    font-size: 1.6rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.arduino-about h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 3rem 0 1.5rem;
+    color: var(--secondary-color);
+}
+
+.arduino-about ul {
+    margin-bottom: 2rem;
+    padding-left: 2rem;
+}
+
+.arduino-about li {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--text-color);
+}
+
+.arduino-about li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.tech-tag {
+    padding: 0.8rem 1.5rem;
+    background-color: rgba(9, 132, 227, 0.1);
+    color: var(--secondary-color);
+    font-size: 1.4rem;
+    border-radius: 5px;
+}
+
+.arduino-code .code-container {
+    background-color: #1e272e;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: var(--shadow-large);
+    position: relative;
+    overflow: hidden;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.arduino-code .code-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: #2d3436;
+    border-radius: 10px 10px 0 0;
+}
+
+.arduino-code .code-container::after {
+    content: '• • •';
+    position: absolute;
+    top: 0;
+    left: 15px;
+    font-size: 2rem;
+    line-height: 30px;
+    color: #d63031;
+}
+
+.arduino-code pre {
+    margin-top: 20px;
+    font-family: var(--font-secondary);
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.arduino-schema {
+    margin: 6rem 0;
+}
+
+.arduino-schema h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: var(--light-color);
+    position: relative;
+    display: inline-block;
+}
+
+.arduino-schema h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 3px;
+}
+
+.schema-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    align-items: center;
+}
+
+.schema-image {
+    flex: 1;
+    min-width: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-large);
+}
+
+.schema-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.schema-description {
+    flex: 1;
+    min-width: 300px;
+}
+
+.schema-description h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+}
+
+.schema-description ul {
+    margin-bottom: 2rem;
+    padding-left: 2rem;
+}
+
+.schema-description li {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--text-color);
+}
+
+.schema-description li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+}
+
+.schema-description p {
+    font-size: 1.6rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.arduino-gallery {
+    margin: 6rem 0;
+}
+
+.arduino-gallery h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: var(--light-color);
+    position: relative;
+    display: inline-block;
+}
+
+.arduino-gallery h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 3px;
+}
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    transition: var(--transition-medium);
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-large);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: var(--transition-medium);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: var(--light-color);
+    font-size: 1.6rem;
+    transform: translateY(100%);
+    transition: var(--transition-medium);
+}
+
+.gallery-item:hover .gallery-caption {
+    transform: translateY(0);
+}
+
+.back-to-portfolio {
+    text-align: center;
+    margin: 4rem 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+    .arduino-details {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .arduino-showcase {
+        flex-direction: column;
+    }
+    
+    .arduino-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .schema-container {
+        flex-direction: column;
+    }
+    
+    .gallery-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .arduino-header h1 {
+        font-size: 3.5rem;
+    }
+}

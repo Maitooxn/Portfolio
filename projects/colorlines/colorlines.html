@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Lines - Jordan Oshoffa</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="mini-jeux.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        .game-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .game-board {
+            margin-bottom: 1.5rem;
+        }
+        .game-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 450px;
+            margin-bottom: 1rem;
+        }
+        .instructions {
+            background-color: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            max-width: 600px;
+        }
+        .download-section {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        canvas {
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        #reset-button {
+            background-color: #f5aa42;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        #reset-button:hover {
+            background-color: #e09932;
+        }
+    </style>
+</head>
+<body>
+    <!-- Préchargeur -->
+    <div class="preloader">
+        <div class="loader">
+            <span class="loader-text">LOADING</span>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Curseur personnalisé -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar scrolled">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-text">JO</span>
+                <div class="logo-dot"></div>
+            </div>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index.html#accueil" class="nav-link">Accueil</a></li>
+                <li class="nav-item"><a href="../../index.html#projets" class="nav-link">Projets</a></li>
+                <li class="nav-item"><a href="index.html" class="nav-link active">Mini-Jeux</a></li>
+                <li class="nav-item"><a href="../../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section Color Lines -->
+    <section class="mini-jeux-section">
+        <div class="container">
+            <div class="game-header">
+                <h1>Color Lines</h1>
+                <p>Un jeu de réflexion où vous devez aligner des billes de même couleur</p>
+            </div>
+            
+            <div class="game-container">
+                <div class="game-info">
+                    <canvas id="next-balls-canvas"></canvas>
+                    <canvas id="score-canvas"></canvas>
+                </div>
+                
+                <div class="game-board">
+                    <canvas id="game-canvas"></canvas>
+                </div>
+                
+                <div class="game-controls">
+                    <button id="reset-button">Nouvelle partie</button>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h2>Comment jouer</h2>
+                <p>Color Lines est un jeu de réflexion où le joueur doit aligner des billes de même couleur pour les faire disparaître et marquer des points.</p>
+                
+                <h3>Règles du jeu</h3>
+                <ol>
+                    <li>Cliquez sur une bille pour la sélectionner.</li>
+                    <li>Cliquez sur une case vide accessible (en vert) pour déplacer la bille.</li>
+                    <li>Après chaque déplacement, trois nouvelles billes apparaissent aléatoirement sur le plateau.</li>
+                    <li>Formez des lignes de 5 billes ou plus de même couleur (horizontales, verticales ou diagonales) pour les faire disparaître et marquer des points.</li>
+                    <li>Le jeu se termine lorsque le plateau est rempli et qu'aucun mouvement n'est possible.</li>
+                </ol>
+                
+                <h3>Astuces</h3>
+                <ul>
+                    <li>Planifiez vos mouvements à l'avance en tenant compte des prochaines billes qui apparaîtront.</li>
+                    <li>Essayez de garder des chemins ouverts pour pouvoir déplacer vos billes efficacement.</li>
+                    <li>Concentrez-vous sur une couleur à la fois pour maximiser vos chances de former des alignements.</li>
+                </ul>
+            </div>
+            
+            <div class="download-section">
+                <p>Vous pouvez également télécharger la version Python du jeu pour y jouer hors ligne :</p>
+                <a href="jeux/colorlines.py" download class="btn btn-primary">
+                    <i class="fas fa-download"></i> Télécharger Color Lines (Python)
+                </a>
+            </div>
+            
+            <div class="back-to-games">
+                <a href="../../index.html#projets" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au portfolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">JO</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 Jordan Oshoffa. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../index.html#accueil">Accueil</a>
+                    <a href="../../index.html#a-propos">À Propos</a>
+                    <a href="../../index.html#competences">Compétences</a>
+                    <a href="../../index.html#projets">Projets</a>
+                    <a href="../../index.html#formation">Formation</a>
+                    <a href="../../index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <a href="#"><i class="fas fa-arrow-up"></i></a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/script.js"></script>
+    <script src="js/colorlines.js"></script>
+</body>
+</html>
